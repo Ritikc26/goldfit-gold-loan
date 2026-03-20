@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Nominee Details – Goldfit Gold Loan</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #C8972B; --gold-light: #F5E6C0; --gold-pale: #FDF8EE; --gold-dark: #8B6418;
+  --navy: #1A2B5F; --navy-mid: #243575; --ink: #1C1C1E; --muted: #6B7280;
+  --light-gray: #F4F4F5; --border: #E5E7EB; --white: #FFFFFF;
+  --success: #16A34A; --success-bg: #DCFCE7;
+  --error: #DC2626; --error-bg: #FEE2E2;
+  --warning: #D97706; --warning-bg: #FEF3C7;
+  --radius-sm: 10px; --radius-md: 14px; --radius-pill: 100px;
+}
+html, body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--light-gray); color: var(--ink);
+  max-width: 430px; margin: 0 auto;
+  min-height: 100vh; overflow-x: hidden;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px; background: var(--white);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-left { display: flex; align-items: center; gap: 12px; }
+.back-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--light-gray); border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; -webkit-tap-highlight-color: transparent; flex-shrink: 0;
+}
+.back-btn svg { width: 18px; height: 18px; }
+.topbar-title { font-size: 15px; font-weight: 600; color: var(--ink); }
+.help-btn {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 600; color: var(--navy);
+  background: var(--light-gray); border: 1px solid var(--border);
+  border-radius: var(--radius-pill); padding: 6px 10px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.help-btn svg { width: 16px; height: 16px; }
+
+/* ── STEP PROGRESS ── */
+.step-progress { padding: 16px 20px 0; background: var(--white); }
+.step-track {
+  display: flex; align-items: center; gap: 0;
+  overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+  padding-bottom: 12px;
+}
+.step-track::-webkit-scrollbar { display: none; }
+.step-item { display: flex; align-items: center; gap: 0; flex-shrink: 0; }
+.step-dot {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600; flex-shrink: 0; transition: all 0.3s;
+}
+.step-dot.active   { background: var(--navy); color: var(--white); }
+.step-dot.done     { background: var(--success-bg); color: var(--success); }
+.step-dot.inactive { background: var(--light-gray); color: var(--muted); }
+.step-label { font-size: 11px; font-weight: 500; margin-left: 5px; white-space: nowrap; }
+.step-label.active   { color: var(--navy); }
+.step-label.done     { color: var(--success); }
+.step-label.inactive { color: var(--muted); }
+.step-line { width: 20px; height: 1px; background: var(--border); margin: 0 6px; flex-shrink: 0; }
+.step-line.done { background: var(--success); }
+.progress-bar-wrap { height: 3px; background: var(--light-gray); margin: 0 20px; border-radius: 4px; overflow: hidden; }
+.progress-bar-fill { height: 100%; width: 71.4%; background: var(--navy); border-radius: 4px; transition: width 0.4s ease; }
+
+/* ── BODY ── */
+.body { padding: 28px 20px 140px; }
+.screen-title { font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: -0.4px; margin-bottom: 6px; }
+.screen-subtitle { font-size: 13.5px; color: var(--muted); line-height: 1.55; margin-bottom: 24px; }
+
+/* ── YES/NO TOGGLE ── */
+.yn-label { font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 10px; }
+.yn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+.yn-card {
+  border: 1.5px solid var(--border); border-radius: var(--radius-md);
+  padding: 16px 14px; cursor: pointer; background: var(--white);
+  display: flex; align-items: center; gap: 12px;
+  transition: border-color 0.2s, background 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.yn-card.selected { border-color: var(--navy); background: #F0F3FF; }
+.yn-card.selected-no { border-color: var(--muted); background: var(--light-gray); }
+.radio-outer {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid var(--border); background: var(--white);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: border-color 0.2s;
+}
+.yn-card.selected .radio-outer { border-color: var(--navy); }
+.yn-card.selected-no .radio-outer { border-color: var(--muted); }
+.radio-inner { width: 9px; height: 9px; border-radius: 50%; background: var(--navy); opacity: 0; transition: opacity 0.2s; }
+.yn-card.selected .radio-inner { opacity: 1; }
+.yn-card.selected-no .radio-inner { opacity: 1; background: var(--muted); }
+.yn-text {}
+.yn-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.yn-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* ── NO NOMINEE NOTICE ── */
+.no-nominee-notice {
+  display: none; align-items: flex-start; gap: 14px;
+  background: var(--warning-bg); border: 1px solid #FDE68A;
+  border-radius: var(--radius-md); padding: 16px 18px;
+}
+.no-nominee-notice.show { display: flex; }
+.nudge-icon { flex-shrink: 0; margin-top: 2px; }
+.nudge-title { font-size: 14px; font-weight: 700; color: var(--warning); margin-bottom: 4px; }
+.nudge-body { font-size: 13px; color: #92400E; line-height: 1.5; margin-bottom: 12px; }
+.nudge-cta {
+  font-size: 13px; font-weight: 600; color: var(--white);
+  background: var(--warning); border: none;
+  border-radius: var(--radius-pill); padding: 9px 18px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.2s;
+}
+.nudge-cta:active { opacity: 0.85; }
+
+/* ── SECTION CARD ── */
+.section-card { background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--border); padding: 20px; margin-bottom: 16px; display: none; }
+.section-card.show { display: block; }
+.section-heading { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+
+/* ── FIELDS ── */
+.field { margin-bottom: 16px; }
+.field:last-child { margin-bottom: 0; }
+.field-label { font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 7px; }
+.field-wrap { position: relative; }
+.field-input {
+  width: 100%; padding: 14px 16px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  color: var(--ink); background: var(--white);
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  outline: none; transition: border-color 0.2s; -webkit-appearance: none;
+}
+.field-input:focus { border-color: var(--navy); }
+.field-input::placeholder { color: #C0C7D0; font-weight: 400; }
+.field-input.valid { border-color: var(--success); }
+.field-input.error { border-color: var(--error); }
+.field-input.prefilled { background: var(--light-gray); }
+.field-select {
+  width: 100%; padding: 14px 40px 14px 16px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  color: var(--ink); background: var(--white);
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  outline: none; -webkit-appearance: none; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center;
+  cursor: pointer; transition: border-color 0.2s;
+}
+.field-select:focus { border-color: var(--navy); }
+.field-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; pointer-events: none; }
+.field-icon svg { width: 20px; height: 20px; }
+.field-error { font-size: 12px; color: var(--error); margin-top: 6px; display: none; }
+.field-hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.field-row .field { margin-bottom: 0; }
+.field-textarea {
+  width: 100%; padding: 14px 16px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  color: var(--ink); background: var(--white);
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  outline: none; transition: border-color 0.2s;
+  resize: none; height: 100px; line-height: 1.6;
+}
+.field-textarea:focus { border-color: var(--navy); }
+.field-textarea::placeholder { color: #C0C7D0; font-weight: 400; }
+.field-textarea.prefilled { background: var(--light-gray); }
+
+/* ── AGE BADGE ── */
+.age-badge {
+  display: none; align-items: center; gap: 8px;
+  border-radius: var(--radius-sm); padding: 10px 14px; margin-top: 8px;
+}
+.age-badge.minor { display: flex; background: var(--warning-bg); border: 1px solid #FDE68A; }
+.age-badge.adult { display: flex; background: var(--success-bg); border: 1px solid #BBF7D0; }
+.age-badge svg { width: 16px; height: 16px; flex-shrink: 0; }
+.age-badge-text { font-size: 12px; font-weight: 500; }
+.age-badge.minor .age-badge-text { color: var(--warning); }
+.age-badge.adult .age-badge-text { color: var(--success); }
+
+/* ── SAME ADDRESS TOGGLE ── */
+.same-addr-row {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--light-gray); border-radius: var(--radius-sm);
+  padding: 14px 16px; margin-bottom: 16px; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.same-addr-label { font-size: 13.5px; font-weight: 500; color: var(--ink); }
+
+/* toggle switch */
+.toggle { width: 40px; height: 22px; border-radius: 11px; background: var(--border); position: relative; transition: background 0.2s; flex-shrink: 0; }
+.toggle.on { background: var(--navy); }
+.toggle-dot { width: 18px; height: 18px; border-radius: 50%; background: var(--white); position: absolute; top: 2px; left: 2px; transition: left 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+.toggle.on .toggle-dot { left: 20px; }
+
+/* ── GUARDIAN SECTION ── */
+.guardian-notice {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--warning-bg); border: 1px solid #FDE68A;
+  border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 16px;
+}
+.guardian-notice svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; }
+.guardian-notice-text { font-size: 12.5px; color: var(--warning); line-height: 1.5; font-weight: 500; }
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+/* ── STICKY CTA ── */
+.cta-fixed {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 430px;
+  background: var(--white); padding: 14px 20px 30px;
+  border-top: 1px solid var(--border); z-index: 40;
+}
+.btn-primary {
+  width: 100%; background: var(--navy); color: var(--white);
+  font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+  border: none; border-radius: var(--radius-pill); padding: 17px 20px;
+  cursor: pointer; transition: background 0.2s, transform 0.1s, opacity 0.2s;
+  -webkit-tap-highlight-color: transparent; opacity: 0.4;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-primary.enabled { opacity: 1; }
+.btn-primary.enabled:active { transform: scale(0.98); background: var(--navy-mid); }
+.cta-secure { font-size: 11.5px; color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 5px; margin-top: 10px; }
+.cta-secure svg { width: 13px; height: 13px; }
+
+/* ── LANGUAGE SELECTOR ── */
+.lang-wrap { position: relative; }
+.lang-btn {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 600; color: var(--navy);
+  background: var(--light-gray); border: 1px solid var(--border);
+  border-radius: var(--radius-pill); padding: 6px 10px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.lang-dropdown {
+  display: none; position: absolute; top: calc(100% + 6px); right: 0;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); min-width: 130px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1); z-index: 200; overflow: hidden;
+}
+.lang-dropdown.open { display: block; }
+.lang-option {
+  padding: 11px 16px; font-size: 13px; color: var(--ink);
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+}
+.lang-option:hover, .lang-option.selected { background: var(--light-gray); font-weight: 600; color: var(--navy); }
+/* ── HELP SHEET ── */
+.help-option {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+  text-decoration: none; -webkit-tap-highlight-color: transparent;
+}
+.help-option:last-child { border-bottom: none; }
+.help-option-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.help-option-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.help-option-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.sheet-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+  z-index: 200; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.sheet-overlay.open { opacity: 1; pointer-events: all; }
+.otp-sheet {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%);
+  width: 100%; max-width: 430px;
+  background: var(--white); border-radius: 24px 24px 0 0;
+  padding: 0 0 40px; z-index: 201;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.otp-sheet.open { transform: translateX(-50%) translateY(0); }
+.sheet-handle { width: 36px; height: 4px; background: var(--border); border-radius: 4px; margin: 12px auto 20px; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="back-btn" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    </button>
+    <span class="topbar-title">Nominee Details</span>
+  </div>
+<div class="lang-wrap">
+      <button class="lang-btn" onclick="toggleLang()" id="lang-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        <span id="lang-label">EN</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="10" height="10"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="lang-dropdown" id="lang-dropdown">
+        <div class="lang-option selected" onclick="setLang('EN','English')">English</div>
+        <div class="lang-option" onclick="setLang('HI','हिंदी')">हिंदी</div>
+        <div class="lang-option" onclick="setLang('TA','தமிழ்')">தமிழ்</div>
+        <div class="lang-option" onclick="setLang('TE','తెలుగు')">తెలుగు</div>
+        <div class="lang-option" onclick="setLang('BN','বাংলা')">বাংলা</div>
+        <div class="lang-option" onclick="setLang('MR','मराठी')">मराठी</div>
+      </div>
+    </div>
+  <button class="help-btn" onclick="openHelp()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 11.5 19.79 19.79 0 011.29 2.94 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.37a16 16 0 006.29 6.29l1.54-1.54a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+    Help
+  </button>
+</div>
+
+<!-- STEP PROGRESS -->
+<div class="step-progress">
+  <div class="step-track">
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label done">Verification</span></div>
+    <div class="step-line done"></div>
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label done">eKYC</span></div>
+    <div class="step-line done"></div>
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label done">Applicant</span></div>
+    <div class="step-line done"></div>
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label done">Employment</span></div>
+    <div class="step-line done"></div>
+    <div class="step-item"><div class="step-dot active">5</div><span class="step-label active">Nominee</span></div>
+    <div class="step-line"></div>
+    <div class="step-item"><div class="step-dot inactive">6</div><span class="step-label inactive">Loan & Branch</span></div>
+    <div class="step-line"></div>
+    <div class="step-item"><div class="step-dot inactive">7</div><span class="step-label inactive">Summary</span></div>
+  </div>
+</div>
+<div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+
+<!-- BODY -->
+<div class="body">
+  <h1 class="screen-title">Nominee Details</h1>
+  <p class="screen-subtitle">A nominee is the person who will receive the loan benefits in case of an unforeseen event.</p>
+
+  <!-- HAVE NOMINEE? -->
+  <div class="yn-label">Do you want to add a nominee?</div>
+  <div class="yn-grid">
+    <div class="yn-card" id="yn-yes" onclick="selectNominee('yes')">
+      <div class="radio-outer"><div class="radio-inner"></div></div>
+      <div class="yn-text">
+        <div class="yn-title">Yes</div>
+        <div class="yn-sub">Add nominee details</div>
+      </div>
+    </div>
+    <div class="yn-card" id="yn-no" onclick="selectNominee('no')">
+      <div class="radio-outer"><div class="radio-inner"></div></div>
+      <div class="yn-text">
+        <div class="yn-title">No</div>
+        <div class="yn-sub">Skip this step</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NO NOMINEE NUDGE -->
+  <div class="no-nominee-notice" id="no-nominee-notice">
+    <div class="nudge-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+    </div>
+    <div>
+      <div class="nudge-title">Are you sure?</div>
+      <div class="nudge-body">Without a nominee, your family may face challenges claiming your funds.</div>
+      <button class="nudge-cta" onclick="selectNominee('yes')">Add Nominee Instead</button>
+    </div>
+  </div>
+
+  <!-- NOMINEE DETAILS SECTION -->
+  <div class="section-card" id="nominee-section">
+    <div class="section-heading">Nominee Information</div>
+
+    <div class="field">
+      <div class="field-label">Full Name</div>
+      <input class="field-input" id="nom-name" type="text"
+        placeholder="Enter nominee's full name" oninput="checkForm()">
+      <div class="field-error" id="nom-name-error">Please enter a valid name</div>
+    </div>
+
+    <div class="field">
+      <div class="field-label">Relationship with Applicant</div>
+      <select class="field-select" id="nom-relation" onchange="checkForm()">
+        <option value="">Select relationship</option>
+        <option>Spouse</option>
+        <option>Father</option>
+        <option>Mother</option>
+        <option>Son</option>
+        <option>Daughter</option>
+        <option>Brother</option>
+        <option>Sister</option>
+        <option>Grandfather</option>
+        <option>Grandmother</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <div class="field-label">Date of Birth</div>
+      <div class="field-wrap">
+        <input class="field-input" id="nom-dob" type="date"
+          max="" oninput="handleNomineeDOB()">
+      </div>
+      <div class="field-error" id="nom-dob-error">Please enter a valid date of birth</div>
+      <!-- Age indicator -->
+      <div class="age-badge" id="age-badge">
+        <svg id="age-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        <span class="age-badge-text" id="age-text"></span>
+      </div>
+    </div>
+
+    <!-- ADDRESS -->
+    <div class="divider"></div>
+    <div style="font-size:13px; font-weight:600; color:var(--ink); margin-bottom:14px;">Nominee Address</div>
+
+    <div class="same-addr-row" id="same-addr-toggle" onclick="toggleSameAddress()">
+      <span class="same-addr-label">Same as applicant's address</span>
+      <div class="toggle" id="addr-toggle"><div class="toggle-dot"></div></div>
+    </div>
+
+    <!-- Nominee address fields (shown when not same) -->
+    <div id="nom-addr-fields" style="display:none">
+      <div class="field">
+        <div class="field-label">House / Flat No.</div>
+        <input class="field-input" id="nom-house" type="text" placeholder="Enter house / flat no." oninput="checkForm()">
+      </div>
+      <div class="field">
+        <div class="field-label">Street / Locality</div>
+        <input class="field-input" id="nom-street" type="text" placeholder="Enter street or locality" oninput="checkForm()">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <div class="field-label">Pincode</div>
+          <input class="field-input" id="nom-pin" type="tel" maxlength="6" placeholder="6-digit pincode" oninput="handleNomPin()">
+          <div class="field-error" id="nom-pin-error">Enter valid 6-digit pincode</div>
+        </div>
+        <div class="field">
+          <div class="field-label">District</div>
+          <input class="field-input" id="nom-district" type="text" placeholder="District" oninput="checkForm()">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <div class="field-label">City</div>
+          <input class="field-input" id="nom-city" type="text" placeholder="City" oninput="checkForm()">
+        </div>
+        <div class="field">
+          <div class="field-label">State</div>
+          <input class="field-input" id="nom-state" type="text" placeholder="State" oninput="checkForm()">
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">Country</div>
+        <input class="field-input prefilled" type="text" value="India" readonly>
+      </div>
+    </div>
+
+    <!-- Prefilled address display (shown when same as applicant) -->
+    <div id="nom-addr-prefilled" style="display:none">
+      <div class="field">
+        <div class="field-label">Address</div>
+        <textarea class="field-textarea prefilled" readonly>B-204, Sunrise Apartments, MG Road, Sector 12, Faridabad, Haryana – 121001</textarea>
+      </div>
+    </div>
+
+    <!-- GUARDIAN SECTION (shown when nominee is minor) -->
+    <div id="guardian-section" style="display:none">
+      <div class="divider"></div>
+
+      <div class="guardian-notice">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <div class="guardian-notice-text">
+          Since the nominee is a minor (under 18 years), you must provide guardian details. The guardian must be 18 years or older.
+        </div>
+      </div>
+
+      <div style="font-size:13px; font-weight:600; color:var(--ink); margin-bottom:14px;">Guardian Details</div>
+
+      <div class="field">
+        <div class="field-label">Guardian Full Name</div>
+        <input class="field-input" id="guard-name" type="text"
+          placeholder="Enter guardian's full name" oninput="checkForm()">
+      </div>
+
+      <div class="field">
+        <div class="field-label">Relationship with Nominee</div>
+        <select class="field-select" id="guard-relation" onchange="checkForm()">
+          <option value="">Select relationship</option>
+          <option>Father</option>
+          <option>Mother</option>
+          <option>Grandfather</option>
+          <option>Grandmother</option>
+          <option>Legal Guardian</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Guardian Date of Birth</div>
+        <div class="field-wrap">
+          <input class="field-input" id="guard-dob" type="date"
+            max="" oninput="handleGuardianDOB()">
+        </div>
+        <div class="field-error" id="guard-dob-error">Guardian must be 18 years or older</div>
+        <div class="field-hint">Guardian must be at least 18 years old</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- STICKY CTA -->
+<div class="cta-fixed">
+  <button class="btn-primary" id="continue-btn" onclick="goToLoanBranch()">
+    Continue
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button>
+  <div class="cta-secure">
+    <svg viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Secure & Encrypted
+  </div>
+</div>
+
+<script>
+  let hasNominee = null;
+  let sameAddress = true;
+  let isMinor = false;
+
+  // Set max date for DOB inputs to today
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('nom-dob').max = today;
+  document.getElementById('guard-dob').max = today;
+
+  function goBack() {
+    if (document.referrer) history.back();
+    else window.location.href = 'gold-loan-employment.html';
+  }
+
+  // ── NOMINEE YES / NO ──
+  function selectNominee(choice) {
+    hasNominee = choice;
+    const yesCard = document.getElementById('yn-yes');
+    const noCard  = document.getElementById('yn-no');
+    const section = document.getElementById('nominee-section');
+    const notice  = document.getElementById('no-nominee-notice');
+
+    yesCard.className = 'yn-card' + (choice === 'yes' ? ' selected' : '');
+    noCard.className  = 'yn-card' + (choice === 'no'  ? ' selected-no' : '');
+
+    section.classList.toggle('show', choice === 'yes');
+    notice.classList.toggle('show', choice === 'no');
+
+    checkForm();
+  }
+
+  // ── NOMINEE DOB & AGE CHECK ──
+  function handleNomineeDOB() {
+    const dob = document.getElementById('nom-dob').value;
+    if (!dob) { resetAgeBadge(); checkForm(); return; }
+
+    const age = calcAge(dob);
+    isMinor = age < 18;
+
+    const badge    = document.getElementById('age-badge');
+    const ageText  = document.getElementById('age-text');
+    const ageIcon  = document.getElementById('age-icon');
+    const guardian = document.getElementById('guardian-section');
+    const errEl    = document.getElementById('nom-dob-error');
+
+    if (age < 0 || age > 120) {
+      errEl.style.display = 'block';
+      resetAgeBadge();
+      checkForm(); return;
+    }
+    errEl.style.display = 'none';
+
+    if (isMinor) {
+      badge.className = 'age-badge minor';
+      ageIcon.setAttribute('stroke', '#D97706');
+      ageIcon.innerHTML = '<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>';
+      ageText.textContent = `Age ${age} – Minor. Guardian details required.`;
+      guardian.style.display = 'block';
+    } else {
+      badge.className = 'age-badge adult';
+      ageIcon.setAttribute('stroke', '#16A34A');
+      ageIcon.innerHTML = '<polyline points="20 6 9 17 4 12"/>';
+      ageText.textContent = `Age ${age} – Valid nominee age`;
+      guardian.style.display = 'none';
+      // Clear guardian fields
+      document.getElementById('guard-name').value = '';
+      document.getElementById('guard-relation').value = '';
+      document.getElementById('guard-dob').value = '';
+    }
+    checkForm();
+  }
+
+  function resetAgeBadge() {
+    document.getElementById('age-badge').className = 'age-badge';
+    isMinor = false;
+    document.getElementById('guardian-section').style.display = 'none';
+  }
+
+  function calcAge(dob) {
+    const today = new Date();
+    const birth = new Date(dob);
+    let age = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+    return age;
+  }
+
+  // ── GUARDIAN DOB CHECK ──
+  function handleGuardianDOB() {
+    const dob = document.getElementById('guard-dob').value;
+    const errEl = document.getElementById('guard-dob-error');
+    if (!dob) { errEl.style.display = 'none'; checkForm(); return; }
+    const age = calcAge(dob);
+    const valid = age >= 18;
+    errEl.style.display = !valid ? 'block' : 'none';
+    document.getElementById('guard-dob').classList.toggle('error', !valid);
+    document.getElementById('guard-dob').classList.toggle('valid', valid);
+    checkForm();
+  }
+
+  // ── SAME ADDRESS TOGGLE ──
+  function toggleSameAddress() {
+    sameAddress = !sameAddress;
+    document.getElementById('addr-toggle').classList.toggle('on', sameAddress);
+    document.getElementById('nom-addr-fields').style.display = sameAddress ? 'none' : 'block';
+    document.getElementById('nom-addr-prefilled').style.display = sameAddress ? 'block' : 'none';
+    checkForm();
+  }
+
+  // Init toggle as ON
+  document.getElementById('addr-toggle').classList.add('on');
+  document.getElementById('nom-addr-prefilled').style.display = 'block';
+
+  // ── PINCODE ──
+  function handleNomPin() {
+    const el  = document.getElementById('nom-pin');
+    const err = document.getElementById('nom-pin-error');
+    el.value  = el.value.replace(/\D/g, '');
+    const valid = el.value.length === 6;
+    err.style.display = (!valid && el.value.length > 0) ? 'block' : 'none';
+    el.classList.toggle('valid', valid);
+    el.classList.toggle('error', !valid && el.value.length > 0);
+    checkForm();
+  }
+
+  // ── FORM VALIDATION ──
+  function checkForm() {
+    let ready = false;
+
+    if (hasNominee === 'no') {
+      ready = true;
+    }
+
+    if (hasNominee === 'yes') {
+      const nameOk     = document.getElementById('nom-name').value.trim().length > 1;
+      const relationOk = document.getElementById('nom-relation').value !== '';
+      const dobOk      = document.getElementById('nom-dob').value !== ''
+                         && calcAge(document.getElementById('nom-dob').value) >= 0
+                         && calcAge(document.getElementById('nom-dob').value) <= 120;
+
+      let addrOk = true;
+      if (!sameAddress) {
+        addrOk = document.getElementById('nom-house').value.trim().length > 0
+          && document.getElementById('nom-street').value.trim().length > 0
+          && document.getElementById('nom-pin').value.length === 6
+          && document.getElementById('nom-district').value.trim().length > 0
+          && document.getElementById('nom-city').value.trim().length > 0
+          && document.getElementById('nom-state').value.trim().length > 0;
+      }
+
+      let guardianOk = true;
+      if (isMinor) {
+        const guardAge = document.getElementById('guard-dob').value
+          ? calcAge(document.getElementById('guard-dob').value) : -1;
+        guardianOk = document.getElementById('guard-name').value.trim().length > 1
+          && document.getElementById('guard-relation').value !== ''
+          && guardAge >= 18;
+      }
+
+      ready = nameOk && relationOk && dobOk && addrOk && guardianOk;
+    }
+
+    document.getElementById('continue-btn').classList.toggle('enabled', ready);
+  }
+
+  function goToLoanBranch() {
+    if (!document.getElementById('continue-btn').classList.contains('enabled')) return;
+    window.location.href = 'gold-loan-branch.html';
+  }
+
+  window.addEventListener('pageshow', function(e) {
+    if (e.persisted) window.location.reload();
+  });
+
+  function toggleLang() {
+    document.getElementById('lang-dropdown').classList.toggle('open');
+  }
+  function setLang(code) {
+    document.getElementById('lang-label').textContent = code;
+    document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('selected'));
+    event.target.classList.add('selected');
+    document.getElementById('lang-dropdown').classList.remove('open');
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.lang-wrap')) {
+      const dd = document.getElementById('lang-dropdown');
+      if (dd) dd.classList.remove('open');
+    }
+  });
+  function openHelp() {
+    document.getElementById('help-overlay').classList.add('open');
+    document.getElementById('help-sheet').classList.add('open');
+  }
+  function closeHelp() {
+    document.getElementById('help-overlay').classList.remove('open');
+    document.getElementById('help-sheet').classList.remove('open');
+  }
+</script>
+<!-- HELP SHEET -->
+<div class="sheet-overlay" id="help-overlay" onclick="closeHelp()"></div>
+<div class="otp-sheet" id="help-sheet">
+  <div class="sheet-handle"></div>
+  <div style="padding:0 24px 24px;">
+    <div style="font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px;">Need Help?</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;">Support team available Mon–Sat, 9 AM – 6 PM</div>
+    <a href="tel:18001234567" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#EFF6FF;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 11.5 19.79 19.79 0 011.29 2.94 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.37a16 16 0 006.29 6.29l1.54-1.54a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink);">Call Us</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">1800-123-4567 · Toll Free</div>
+      </div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="https://wa.me/911800123456" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#DCFCE7;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="#16A34A" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.121 1.532 5.855L0 24l6.335-1.51A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.372l-.36-.214-3.732.888.924-3.638-.235-.374A9.818 9.818 0 1112 21.818z"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink);">WhatsApp</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Chat with us instantly</div>
+      </div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="/cdn-cgi/l/email-protection#c7b4b2b7b7a8b5b387b4a4a8b5a2aaa2e9aea9" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#FDF8EE;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C8972B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink);">Email Us</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;"><span class="__cf_email__" data-cfemail="e5969095958a9791a596868a97808880cb8c8b">[email&#160;protected]</span></div>
+      </div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="#faq" style="display:flex;align-items:center;gap:14px;padding:14px 0;text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#EDE9FE;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink);">FAQs</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Browse common questions</div>
+      </div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-lin

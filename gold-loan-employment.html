@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Employment Details – Goldfit Gold Loan</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #C8972B; --gold-light: #F5E6C0; --gold-pale: #FDF8EE; --gold-dark: #8B6418;
+  --navy: #1A2B5F; --navy-mid: #243575; --ink: #1C1C1E; --muted: #6B7280;
+  --light-gray: #F4F4F5; --border: #E5E7EB; --white: #FFFFFF;
+  --success: #16A34A; --success-bg: #DCFCE7;
+  --error: #DC2626; --error-bg: #FEE2E2;
+  --radius-sm: 10px; --radius-md: 14px; --radius-pill: 100px;
+}
+html, body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--light-gray); color: var(--ink);
+  max-width: 430px; margin: 0 auto;
+  min-height: 100vh; overflow-x: hidden;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px; background: var(--white);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-left { display: flex; align-items: center; gap: 12px; }
+.back-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--light-gray); border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; -webkit-tap-highlight-color: transparent; flex-shrink: 0;
+}
+.back-btn svg { width: 18px; height: 18px; }
+.topbar-title { font-size: 15px; font-weight: 600; color: var(--ink); }
+.help-btn {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 600; color: var(--navy);
+  background: var(--light-gray); border: 1px solid var(--border);
+  border-radius: var(--radius-pill); padding: 6px 10px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.help-btn svg { width: 16px; height: 16px; }
+
+/* ── STEP PROGRESS ── */
+.step-progress { padding: 16px 20px 0; background: var(--white); }
+.step-track {
+  display: flex; align-items: center; gap: 0;
+  overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+  padding-bottom: 12px;
+}
+.step-track::-webkit-scrollbar { display: none; }
+.step-item { display: flex; align-items: center; gap: 0; flex-shrink: 0; }
+.step-dot {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600; flex-shrink: 0; transition: all 0.3s;
+}
+.step-dot.active   { background: var(--navy); color: var(--white); }
+.step-dot.done     { background: var(--success-bg); color: var(--success); }
+.step-dot.inactive { background: var(--light-gray); color: var(--muted); }
+.step-label { font-size: 11px; font-weight: 500; margin-left: 5px; white-space: nowrap; transition: color 0.3s; }
+.step-label.active   { color: var(--navy); }
+.step-label.done     { color: var(--success); }
+.step-label.inactive { color: var(--muted); }
+.step-line { width: 20px; height: 1px; background: var(--border); margin: 0 6px; flex-shrink: 0; }
+.step-line.done { background: var(--success); }
+.progress-bar-wrap { height: 3px; background: var(--light-gray); margin: 0 20px; border-radius: 4px; overflow: hidden; }
+.progress-bar-fill { height: 100%; width: 57.12%; background: var(--navy); border-radius: 4px; transition: width 0.4s ease; }
+
+/* ── BODY ── */
+.body { padding: 28px 20px 140px; }
+.screen-title { font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: -0.4px; margin-bottom: 6px; }
+.screen-subtitle { font-size: 13.5px; color: var(--muted); line-height: 1.55; margin-bottom: 24px; }
+
+/* ── EMPLOYMENT TYPE CARDS ── */
+.emp-type-label {
+  font-size: 11px; font-weight: 600; color: var(--muted);
+  letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 10px;
+}
+.emp-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+.emp-type-card {
+  border: 1.5px solid var(--border); border-radius: var(--radius-md);
+  padding: 16px 14px; cursor: pointer; background: var(--white);
+  transition: border-color 0.2s, background 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.emp-type-card.selected { border-color: var(--navy); background: #F0F3FF; }
+.radio-outer {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid var(--border); background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 12px; transition: border-color 0.2s;
+}
+.emp-type-card.selected .radio-outer { border-color: var(--navy); }
+.radio-inner { width: 9px; height: 9px; border-radius: 50%; background: var(--navy); opacity: 0; transition: opacity 0.2s; }
+.emp-type-card.selected .radio-inner { opacity: 1; }
+.emp-type-name { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+.emp-type-sub { font-size: 11px; color: var(--muted); }
+
+/* ── SECTION CARD ── */
+.section-card { background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--border); padding: 20px; margin-bottom: 16px; display: none; }
+.section-card.show { display: block; }
+.section-heading { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+
+/* ── FIELDS ── */
+.field { margin-bottom: 16px; }
+.field:last-child { margin-bottom: 0; }
+.field-label { font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 7px; }
+.field-wrap { position: relative; }
+.field-input {
+  width: 100%; padding: 14px 16px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  color: var(--ink); background: var(--white);
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  outline: none; transition: border-color 0.2s; -webkit-appearance: none;
+}
+.field-input:focus { border-color: var(--navy); }
+.field-input::placeholder { color: #C0C7D0; font-weight: 400; }
+.field-input.valid { border-color: var(--success); }
+.field-input.error { border-color: var(--error); }
+.field-select {
+  width: 100%; padding: 14px 40px 14px 16px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  color: var(--ink); background: var(--white);
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  outline: none; -webkit-appearance: none; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center;
+  cursor: pointer; transition: border-color 0.2s;
+}
+.field-select:focus { border-color: var(--navy); }
+.field-hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.field-error { font-size: 12px; color: var(--error); margin-top: 6px; display: none; }
+.field-textarea {
+  width: 100%; padding: 14px 16px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  color: var(--ink); background: var(--white);
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  outline: none; transition: border-color 0.2s;
+  resize: none; height: 100px; line-height: 1.6;
+}
+.field-textarea:focus { border-color: var(--navy); }
+.field-textarea::placeholder { color: #C0C7D0; font-weight: 400; }
+.amount-words {
+  font-size: 12px; color: var(--navy); font-weight: 500;
+  margin-top: 6px; min-height: 18px;
+}
+.bank-info {
+  display: none; align-items: center; gap: 12px;
+  background: #EFF6FF; border: 1px solid #BFDBFE;
+  border-radius: var(--radius-sm); padding: 12px 14px; margin-top: 10px;
+}
+.bank-info.show { display: flex; }
+.bank-logo {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--white); border: 1px solid #BFDBFE;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 11px; font-weight: 700; color: var(--navy);
+  text-align: center; line-height: 1.2;
+}
+.bank-details { flex: 1; }
+.bank-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+.bank-branch { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+.field-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; pointer-events: none; }
+.field-icon svg { width: 20px; height: 20px; }
+
+/* ── PENNY DROP ── */
+.penny-drop-btn {
+  width: 100%; margin-top: 4px;
+  font-size: 13px; font-weight: 600; color: var(--navy);
+  background: #EEF2FF; border: 1.5px solid var(--navy);
+  border-radius: var(--radius-pill); padding: 12px 16px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s; display: none; text-align: center;
+}
+.penny-drop-btn:active { background: #DBEAFE; }
+.penny-drop-status {
+  display: none; align-items: center; gap: 10px;
+  border-radius: var(--radius-sm); padding: 12px 14px; margin-top: 12px;
+}
+.penny-drop-status.verifying { display: flex; background: #EFF6FF; border: 1px solid #BFDBFE; }
+.penny-drop-status.success   { display: flex; background: var(--success-bg); border: 1px solid #BBF7D0; }
+.penny-drop-status.failed    { display: flex; background: var(--error-bg); border: 1px solid #FECACA; }
+.penny-drop-icon { flex-shrink: 0; }
+.penny-drop-text { font-size: 12.5px; font-weight: 500; }
+.penny-drop-status.verifying .penny-drop-text { color: #1E40AF; }
+.penny-drop-status.success .penny-drop-text   { color: #15803D; }
+.penny-drop-status.failed .penny-drop-text    { color: var(--error); }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner { width: 18px; height: 18px; border: 2px solid #BFDBFE; border-top-color: #1E40AF; border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+/* ── GST AUTO-FILL ── */
+.gst-autofill { display: none; background: var(--light-gray); border-radius: var(--radius-sm); padding: 14px 16px; margin-top: 12px; }
+.gst-autofill.show { display: block; }
+.gst-autofill-title { font-size: 10px; font-weight: 600; color: var(--muted); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 10px; }
+.gst-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid var(--border); }
+.gst-row:last-child { border-bottom: none; padding-bottom: 0; }
+.gst-key { font-size: 12px; color: var(--muted); }
+.gst-val { font-size: 12px; font-weight: 600; color: var(--ink); }
+
+/* ── SUB TYPE LIST ── */
+.sub-type-list { display: flex; flex-direction: column; gap: 0; border: 1.5px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 20px; }
+.sub-type-row { display: flex; align-items: center; gap: 14px; padding: 14px 16px; cursor: pointer; background: var(--white); transition: background 0.15s; -webkit-tap-highlight-color: transparent; border-bottom: 1px solid var(--border); }
+.sub-type-row:last-child { border-bottom: none; }
+.sub-type-row.selected { background: #F0F3FF; }
+.sub-radio-outer { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border); background: var(--white); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: border-color 0.2s; }
+.sub-type-row.selected .sub-radio-outer { border-color: var(--navy); }
+.sub-radio-inner { width: 9px; height: 9px; border-radius: 50%; background: var(--navy); opacity: 0; transition: opacity 0.2s; }
+.sub-type-row.selected .sub-radio-inner { opacity: 1; }
+.sub-type-name { font-size: 13.5px; font-weight: 500; color: var(--ink); }
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+/* ── STICKY CTA ── */
+.cta-fixed {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 430px;
+  background: var(--white); padding: 14px 20px 30px;
+  border-top: 1px solid var(--border); z-index: 40;
+}
+.btn-primary {
+  width: 100%; background: var(--navy); color: var(--white);
+  font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+  border: none; border-radius: var(--radius-pill); padding: 17px 20px;
+  cursor: pointer; transition: background 0.2s, transform 0.1s, opacity 0.2s;
+  -webkit-tap-highlight-color: transparent; opacity: 0.4;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-primary.enabled { opacity: 1; }
+.btn-primary.enabled:active { transform: scale(0.98); background: var(--navy-mid); }
+.cta-secure { font-size: 11.5px; color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 5px; margin-top: 10px; }
+.cta-secure svg { width: 13px; height: 13px; }
+
+/* ── LANGUAGE SELECTOR ── */
+.lang-wrap { position: relative; }
+.lang-btn {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 600; color: var(--navy);
+  background: var(--light-gray); border: 1px solid var(--border);
+  border-radius: var(--radius-pill); padding: 6px 10px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.lang-dropdown {
+  display: none; position: absolute; top: calc(100% + 6px); right: 0;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); min-width: 130px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1); z-index: 200; overflow: hidden;
+}
+.lang-dropdown.open { display: block; }
+.lang-option {
+  padding: 11px 16px; font-size: 13px; color: var(--ink);
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+}
+.lang-option:hover, .lang-option.selected { background: var(--light-gray); font-weight: 600; color: var(--navy); }
+/* ── HELP SHEET ── */
+.help-option {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+  text-decoration: none; -webkit-tap-highlight-color: transparent;
+}
+.help-option:last-child { border-bottom: none; }
+.help-option-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.help-option-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.help-option-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.sheet-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+  z-index: 200; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.sheet-overlay.open { opacity: 1; pointer-events: all; }
+.otp-sheet {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%);
+  width: 100%; max-width: 430px;
+  background: var(--white); border-radius: 24px 24px 0 0;
+  padding: 0 0 40px; z-index: 201;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.otp-sheet.open { transform: translateX(-50%) translateY(0); }
+.sheet-handle { width: 36px; height: 4px; background: var(--border); border-radius: 4px; margin: 12px auto 20px; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="back-btn" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    </button>
+    <span class="topbar-title">Employment Details</span>
+  </div>
+<div class="lang-wrap">
+      <button class="lang-btn" onclick="toggleLang()" id="lang-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        <span id="lang-label">EN</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="10" height="10"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="lang-dropdown" id="lang-dropdown">
+        <div class="lang-option selected" onclick="setLang('EN','English')">English</div>
+        <div class="lang-option" onclick="setLang('HI','हिंदी')">हिंदी</div>
+        <div class="lang-option" onclick="setLang('TA','தமிழ்')">தமிழ்</div>
+        <div class="lang-option" onclick="setLang('TE','తెలుగు')">తెలుగు</div>
+        <div class="lang-option" onclick="setLang('BN','বাংলা')">বাংলা</div>
+        <div class="lang-option" onclick="setLang('MR','मराठी')">मराठी</div>
+      </div>
+    </div>
+  <button class="help-btn" onclick="openHelp()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 11.5 19.79 19.79 0 011.29 2.94 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.37a16 16 0 006.29 6.29l1.54-1.54a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+    Help
+  </button>
+</div>
+
+<!-- STEP PROGRESS -->
+<div class="step-progress">
+  <div class="step-track">
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label done">Verification</span></div>
+    <div class="step-line done"></div>
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label done">eKYC</span></div>
+    <div class="step-line done"></div>
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label done">Applicant</span></div>
+    <div class="step-line done"></div>
+    <div class="step-item"><div class="step-dot active">4</div><span class="step-label active">Employment</span></div>
+    <div class="step-line"></div>
+    <div class="step-item"><div class="step-dot inactive">5</div><span class="step-label inactive">Nominee</span></div>
+    <div class="step-line"></div>
+    <div class="step-item"><div class="step-dot inactive">6</div><span class="step-label inactive">Loan & Branch</span></div>
+    <div class="step-line"></div>
+    <div class="step-item"><div class="step-dot inactive">7</div><span class="step-label inactive">Summary</span></div>
+  </div>
+</div>
+<div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+
+<!-- BODY -->
+<div class="body">
+  <h1 class="screen-title">Employment Details</h1>
+  <p class="screen-subtitle">Tell us about your employment to complete your gold loan application.</p>
+
+  <!-- EMPLOYMENT TYPE -->
+  <div class="emp-type-label">Select Employment Type</div>
+  <div class="emp-type-grid">
+    <div class="emp-type-card" id="card-salaried" onclick="selectEmpType('salaried')">
+      <div class="radio-outer"><div class="radio-inner"></div></div>
+      <div class="emp-type-name">Salaried</div>
+      <div class="emp-type-sub">Govt. or private employee</div>
+    </div>
+    <div class="emp-type-card" id="card-self" onclick="selectEmpType('self')">
+      <div class="radio-outer"><div class="radio-inner"></div></div>
+      <div class="emp-type-name">Self Employed</div>
+      <div class="emp-type-sub">Business or freelancer</div>
+    </div>
+  </div>
+
+  <!-- ── SALARIED SECTION ── -->
+  <div class="section-card" id="section-salaried">
+    <div class="section-heading">Salary Account Verification</div>
+
+    <div class="field">
+      <div class="field-label">Salary Account Number</div>
+      <div class="field-wrap">
+        <input class="field-input" id="sal-account" type="tel" maxlength="18"
+          placeholder="Enter salary account number" oninput="handleSalAccount()">
+        <div class="field-icon" id="sal-account-icon" style="display:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+      </div>
+      <div class="field-error" id="sal-account-error">Account number must be 9–18 digits</div>
+    </div>
+
+    <div class="field">
+      <div class="field-label">IFSC Code</div>
+      <div class="field-wrap">
+        <input class="field-input" id="sal-ifsc" type="text" maxlength="11"
+          placeholder="e.g. SBIN0001234" oninput="handleIFSC()"
+          style="text-transform:uppercase; letter-spacing:1px">
+        <div class="field-icon" id="sal-ifsc-icon" style="display:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+      </div>
+      <div class="field-error" id="sal-ifsc-error">Enter valid 11-character IFSC code</div>
+      <div class="field-hint">11-character code found on your cheque book</div>
+      <div class="bank-info" id="bank-info">
+        <div class="bank-logo" id="bank-logo">SBI</div>
+        <div class="bank-details">
+          <div class="bank-name" id="bank-name">State Bank of India</div>
+          <div class="bank-branch" id="bank-branch">Main Branch, New Delhi</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="penny-drop-btn" id="penny-drop-btn" onclick="initiatePennyDrop()">
+      Verify Account via Penny Drop
+    </button>
+
+    <div class="penny-drop-status" id="penny-drop-status">
+      <div class="penny-drop-icon" id="penny-drop-icon"></div>
+      <div class="penny-drop-text" id="penny-drop-text"></div>
+    </div>
+
+    <!-- Employment info — revealed after penny drop -->
+    <div id="sal-details" style="display:none">
+      <div class="divider"></div>
+      <div class="section-heading" style="border:none; padding:0; margin-bottom:16px;">Employment Information</div>
+
+      <div class="field">
+        <div class="field-label">Occupation</div>
+        <select class="field-select" id="sal-occupation" onchange="checkForm()">
+          <option value="">Select occupation</option>
+          <option>Government Employee</option>
+          <option>PSU Employee</option>
+          <option>Private Sector Employee</option>
+          <option>Defence / Armed Forces</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Employment Type</div>
+        <select class="field-select" id="sal-emp-type" onchange="checkForm()">
+          <option value="">Select type</option>
+          <option>Permanent</option>
+          <option>Contract</option>
+          <option>On Probation</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Employer Name</div>
+        <input class="field-input" id="sal-employer" type="text"
+          placeholder="Enter employer / company name" oninput="checkForm()">
+      </div>
+
+      <div class="field">
+        <div class="field-label">Employer Address</div>
+        <textarea class="field-textarea" id="sal-emp-address"
+          placeholder="Enter employer address" oninput="checkForm()"></textarea>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Total Job Experience</div>
+        <select class="field-select" id="sal-experience" onchange="checkForm()">
+          <option value="">Select experience</option>
+          <option>Less than 1 year</option>
+          <option>1 – 3 years</option>
+          <option>3 – 5 years</option>
+          <option>5 – 10 years</option>
+          <option>More than 10 years</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Monthly Income (₹)</div>
+        <input class="field-input" id="sal-income" type="tel"
+          placeholder="e.g. 50,000" oninput="handleAmount('sal-income', 'sal-income-words')">
+        <div class="amount-words" id="sal-income-words"></div>
+        <div class="field-hint">As per latest salary slip</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SELF EMPLOYED SECTION ── -->
+  <div class="section-card" id="section-self">
+    <div class="section-heading">Business Category</div>
+
+    <div class="emp-type-label">I am a</div>
+    <div class="sub-type-list">
+      <div class="sub-type-row" id="sub-gst" onclick="selectSubType('gst')">
+        <div class="sub-radio-outer"><div class="sub-radio-inner"></div></div>
+        <div class="sub-type-name">Self Employed – GST Registered Business</div>
+      </div>
+      <div class="sub-type-row" id="sub-individual" onclick="selectSubType('individual')">
+        <div class="sub-radio-outer"><div class="sub-radio-inner"></div></div>
+        <div class="sub-type-name">Self Employed – Individual / Professional</div>
+      </div>
+    </div>
+
+    <!-- GST section -->
+    <div id="gst-section" style="display:none">
+      <div class="field">
+        <div class="field-label">GST Number</div>
+        <div class="field-wrap">
+          <input class="field-input" id="gst-number" type="text" maxlength="15"
+            placeholder="e.g. 22AAAAA0000A1Z5"
+            oninput="handleGST()" style="text-transform:uppercase; letter-spacing:1px">
+          <div class="field-icon" id="gst-icon" style="display:none">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+        </div>
+        <div class="field-error" id="gst-error">Enter valid 15-character GST number</div>
+        <div class="field-hint">Format: 22AAAAA0000A1Z5 · Auto-fills firm details</div>
+      </div>
+
+      <div class="gst-autofill" id="gst-autofill">
+        <div class="gst-autofill-title">Fetched from GST Portal</div>
+        <div class="gst-row"><span class="gst-key">Firm Name</span><span class="gst-val">Sunrise Enterprises Pvt. Ltd.</span></div>
+        <div class="gst-row"><span class="gst-key">Business Type</span><span class="gst-val">Manufacturer</span></div>
+        <div class="gst-row"><span class="gst-key">Registered Since</span><span class="gst-val">12 Mar 2018</span></div>
+        <div class="gst-row"><span class="gst-key">Status</span><span class="gst-val" style="color:var(--success)">Active</span></div>
+      </div>
+
+      <div id="gst-extra" style="display:none">
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">Monthly Business Turnover (₹)</div>
+          <input class="field-input" id="gst-turnover" type="tel"
+            placeholder="e.g. 2,00,000" oninput="handleAmount('gst-turnover', 'gst-turnover-words')">
+        <div class="amount-words" id="gst-turnover-words"></div>
+        </div>
+        <div class="field">
+          <div class="field-label">Years in Business</div>
+          <select class="field-select" id="gst-years" onchange="checkForm()">
+            <option value="">Select years</option>
+            <option>Less than 1 year</option>
+            <option>1 – 3 years</option>
+            <option>3 – 5 years</option>
+            <option>More than 5 years</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Individual section -->
+    <div id="individual-section" style="display:none">
+      <div class="field">
+        <div class="field-label">Profession</div>
+        <select class="field-select" id="ind-profession" onchange="checkForm()">
+          <option value="">Select profession</option>
+          <option>Doctor / Medical Professional</option>
+          <option>Lawyer / Legal Professional</option>
+          <option>Chartered Accountant</option>
+          <option>Architect / Engineer</option>
+          <option>Trader / Retailer</option>
+          <option>Consultant</option>
+          <option>Farmer / Agriculturist</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Business / Practice Name</div>
+        <input class="field-input" id="ind-business" type="text"
+          placeholder="Enter name of business or practice" oninput="checkForm()">
+      </div>
+
+      <div class="field">
+        <div class="field-label">Business Address</div>
+        <textarea class="field-textarea" id="ind-address"
+          placeholder="Enter business address" oninput="checkForm()"></textarea>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Years in Business / Practice</div>
+        <select class="field-select" id="ind-years" onchange="checkForm()">
+          <option value="">Select years</option>
+          <option>Less than 1 year</option>
+          <option>1 – 3 years</option>
+          <option>3 – 5 years</option>
+          <option>More than 5 years</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Monthly Income (₹)</div>
+        <input class="field-input" id="ind-income" type="tel"
+          placeholder="e.g. 75,000" oninput="handleAmount('ind-income', 'ind-income-words')">
+        <div class="amount-words" id="ind-income-words"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- STICKY CTA -->
+<div class="cta-fixed">
+  <button class="btn-primary" id="continue-btn" onclick="goToNominee()">
+    Continue
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button>
+  <div class="cta-secure">
+    <svg viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Secure & Encrypted
+  </div>
+</div>
+
+<script>
+  let empType = null;
+  let selfSubType = null;
+  let pennyDropVerified = false;
+  let gstVerified = false;
+
+  function goBack() {
+    if (document.referrer) history.back();
+    else window.location.href = 'gold-loan-applicant.html';
+  }
+
+  // ── EMPLOYMENT TYPE ──
+  function selectEmpType(type) {
+    empType = type;
+    pennyDropVerified = false;
+    gstVerified = false;
+    selfSubType = null;
+    document.getElementById('card-salaried').classList.toggle('selected', type === 'salaried');
+    document.getElementById('card-self').classList.toggle('selected', type === 'self');
+    document.getElementById('section-salaried').classList.toggle('show', type === 'salaried');
+    document.getElementById('section-self').classList.toggle('show', type === 'self');
+    checkForm();
+  }
+
+  // ── SALARY ACCOUNT ──
+  function handleSalAccount() {
+    const el = document.getElementById('sal-account');
+    el.value = el.value.replace(/\D/g, '');
+    const len = el.value.length;
+    const valid = len >= 9 && len <= 18;
+    document.getElementById('sal-account-icon').style.display = valid ? 'block' : 'none';
+    document.getElementById('sal-account-error').style.display = (!valid && len > 0) ? 'block' : 'none';
+    el.classList.toggle('valid', valid);
+    el.classList.toggle('error', !valid && len > 0);
+    updatePennyBtn();
+  }
+
+  // Dummy bank data mapped to IFSC prefixes
+  const dummyBanks = {
+    'SBIN': { name: 'State Bank of India',     abbr: 'SBI',  branch: 'Main Branch, Mumbai' },
+    'HDFC': { name: 'HDFC Bank Ltd.',          abbr: 'HDFC', branch: 'Connaught Place, New Delhi' },
+    'ICIC': { name: 'ICICI Bank Ltd.',         abbr: 'ICICI',branch: 'Bandra Kurla Complex, Mumbai' },
+    'PUNB': { name: 'Punjab National Bank',    abbr: 'PNB',  branch: 'Sector 17, Chandigarh' },
+    'BARB': { name: 'Bank of Baroda',          abbr: 'BOB',  branch: 'CBD Belapur, Navi Mumbai' },
+    'UBIN': { name: 'Union Bank of India',     abbr: 'UBI',  branch: 'Fort, Mumbai' },
+    'CNRB': { name: 'Canara Bank',             abbr: 'CNR',  branch: 'MG Road, Bengaluru' },
+    'KKBK': { name: 'Kotak Mahindra Bank',    abbr: 'KMB',  branch: 'Nariman Point, Mumbai' },
+    'IOBA': { name: 'Indian Overseas Bank',    abbr: 'IOB',  branch: 'Anna Salai, Chennai' },
+    'UTIB': { name: 'Axis Bank Ltd.',          abbr: 'AXIS', branch: 'Nehru Place, New Delhi' },
+  };
+
+  function handleIFSC() {
+    const el = document.getElementById('sal-ifsc');
+    el.value = el.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    const valid = /^[A-Z]{4}0[A-Z0-9]{6}$/.test(el.value);
+    document.getElementById('sal-ifsc-icon').style.display = valid ? 'block' : 'none';
+    document.getElementById('sal-ifsc-error').style.display = (!valid && el.value.length > 0) ? 'block' : 'none';
+    el.classList.toggle('valid', valid);
+    el.classList.toggle('error', !valid && el.value.length > 0);
+
+    const bankInfo = document.getElementById('bank-info');
+    if (valid) {
+      const prefix = el.value.slice(0, 4);
+      const bank = dummyBanks[prefix] || { name: 'Scheduled Commercial Bank', abbr: el.value.slice(0,3), branch: 'Branch details unavailable' };
+      document.getElementById('bank-logo').textContent = bank.abbr;
+      document.getElementById('bank-name').textContent = bank.name;
+      document.getElementById('bank-branch').textContent = bank.branch;
+      bankInfo.classList.add('show');
+    } else {
+      bankInfo.classList.remove('show');
+    }
+    updatePennyBtn();
+  }
+
+  function updatePennyBtn() {
+    const acctOk = document.getElementById('sal-account').classList.contains('valid');
+    const ifscOk = document.getElementById('sal-ifsc').classList.contains('valid');
+    const btn = document.getElementById('penny-drop-btn');
+    btn.style.display = (acctOk && ifscOk && !pennyDropVerified) ? 'block' : 'none';
+  }
+
+  // ── PENNY DROP ──
+  function initiatePennyDrop() {
+    document.getElementById('penny-drop-btn').style.display = 'none';
+    const status = document.getElementById('penny-drop-status');
+    const icon   = document.getElementById('penny-drop-icon');
+    const text   = document.getElementById('penny-drop-text');
+
+    status.className = 'penny-drop-status verifying';
+    icon.innerHTML = '<div class="spinner"></div>';
+    text.textContent = 'Verifying account via Penny Drop…';
+
+    setTimeout(() => {
+      pennyDropVerified = true;
+      status.className = 'penny-drop-status success';
+      icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="20 6 9 17 4 12"/></svg>';
+      text.textContent = 'Account verified successfully';
+      document.getElementById('sal-details').style.display = 'block';
+      document.getElementById('sal-details').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      checkForm();
+    }, 2000);
+  }
+
+  // ── SELF EMPLOYED ──
+  function selectSubType(type) {
+    selfSubType = type;
+    document.getElementById('sub-gst').classList.toggle('selected', type === 'gst');
+    document.getElementById('sub-individual').classList.toggle('selected', type === 'individual');
+    document.getElementById('gst-section').style.display = type === 'gst' ? 'block' : 'none';
+    document.getElementById('individual-section').style.display = type === 'individual' ? 'block' : 'none';
+    checkForm();
+  }
+
+  // ── GST ──
+  function handleGST() {
+    const el = document.getElementById('gst-number');
+    el.value = el.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    const valid = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/.test(el.value);
+    document.getElementById('gst-icon').style.display = valid ? 'block' : 'none';
+    document.getElementById('gst-error').style.display = (!valid && el.value.length === 15) ? 'block' : 'none';
+    el.classList.toggle('valid', valid);
+
+    if (valid && !gstVerified) {
+      gstVerified = true;
+      document.getElementById('gst-autofill').classList.add('show');
+      document.getElementById('gst-extra').style.display = 'block';
+    } else if (!valid) {
+      gstVerified = false;
+      document.getElementById('gst-autofill').classList.remove('show');
+      document.getElementById('gst-extra').style.display = 'none';
+    }
+    checkForm();
+  }
+
+  function handleAmount(id, wordsId) {
+    const el = document.getElementById(id);
+    // Strip non-digits
+    let raw = el.value.replace(/[^\d]/g, '');
+    // Format with Indian comma system
+    if (raw.length > 0) {
+      let num = parseInt(raw, 10);
+      el.value = num.toLocaleString('en-IN');
+    } else {
+      el.value = '';
+    }
+    // Show amount in words
+    const wordsEl = document.getElementById(wordsId);
+    if (wordsEl) {
+      const num = parseInt(raw || '0', 10);
+      wordsEl.textContent = raw.length > 0 ? '₹ ' + amountToWords(num) : '';
+    }
+    checkForm();
+  }
+
+  function amountToWords(num) {
+    if (num === 0) return 'Zero';
+    const ones = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine',
+      'Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+    const tens = ['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+
+    function words(n) {
+      if (n < 20) return ones[n];
+      if (n < 100) return tens[Math.floor(n/10)] + (n%10 ? ' ' + ones[n%10] : '');
+      if (n < 1000) return ones[Math.floor(n/100)] + ' Hundred' + (n%100 ? ' ' + words(n%100) : '');
+      if (n < 100000) return words(Math.floor(n/1000)) + ' Thousand' + (n%1000 ? ' ' + words(n%1000) : '');
+      if (n < 10000000) return words(Math.floor(n/100000)) + ' Lakh' + (n%100000 ? ' ' + words(n%100000) : '');
+      return words(Math.floor(n/10000000)) + ' Crore' + (n%10000000 ? ' ' + words(n%10000000) : '');
+    }
+    return words(num) + ' Only';
+  }
+
+  // ── FORM VALIDATION ──
+  function checkForm() {
+    let ready = false;
+
+    if (empType === 'salaried' && pennyDropVerified) {
+      ready = document.getElementById('sal-occupation').value !== ''
+        && document.getElementById('sal-emp-type').value !== ''
+        && document.getElementById('sal-employer').value.trim().length > 1
+        && document.getElementById('sal-emp-address').value.trim().length > 1
+        && document.getElementById('sal-experience').value !== ''
+        && document.getElementById('sal-income').value.replace(/[^\d]/g,'').length > 0;
+    }
+
+    if (empType === 'self' && selfSubType === 'gst' && gstVerified) {
+      ready = document.getElementById('gst-turnover').value.replace(/[^\d]/g,'').length > 0
+        && document.getElementById('gst-years').value !== '';
+    }
+
+    if (empType === 'self' && selfSubType === 'individual') {
+      ready = document.getElementById('ind-profession').value !== ''
+        && document.getElementById('ind-business').value.trim().length > 1
+        && document.getElementById('ind-address').value.trim().length > 1
+        && document.getElementById('ind-years').value !== ''
+        && document.getElementById('ind-income').value.replace(/[^\d]/g,'').length > 0;
+    }
+
+    document.getElementById('continue-btn').classList.toggle('enabled', ready);
+  }
+
+  function goToNominee() {
+    if (!document.getElementById('continue-btn').classList.contains('enabled')) return;
+    window.location.href = 'gold-loan-nominee.html';
+  }
+
+  window.addEventListener('pageshow', function(e) {
+    if (e.persisted) window.location.reload();
+  });
+
+  function toggleLang() {
+    document.getElementById('lang-dropdown').classList.toggle('open');
+  }
+  function setLang(code) {
+    document.getElementById('lang-label').textContent = code;
+    document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('selected'));
+    event.target.classList.add('selected');
+    document.getElementById('lang-dropdown').classList.remove('open');
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.lang-wrap')) {
+      const dd = document.getElementById('lang-dropdown');
+      if (dd) dd.classList.remove('open');
+    }
+  });
+  function openHelp() {
+    document.getElementById('help-overlay').classList.add('open');
+    document.getElementById('help-sheet').classList.add('open');
+  }
+  function closeHelp() {
+    document.getElementById('help-overlay').classList.remove('open');
+    document.getElementById('help-sheet').classList.remove('open');
+  }
+</script>
+<!-- HELP SHEET -->
+<div class="sheet-overlay" id="help-overlay" onclick="closeHelp()"></div>
+<div class="otp-sheet" id="help-sheet">
+  <div class="sheet-handle"></div>
+  <div style="padding:0 24px 24px;">
+    <div style="font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px;">Need Help?</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;">Support team available Mon–Sat, 9 AM – 6 PM</div>
+    <a href="tel:18001234567" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#EFF6FF;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 11.5 19.79 19.79 0 011.29 2.94 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.37a16 16 0 006.29 6.29l1.54-1.54a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink);">Call Us</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">1800-123-4567 · Toll Free</div>
+      </div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="https://wa.me/911800123456" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#DCFCE7;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="#16A34A" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.121 1.532 5.855L0 24l6.335-1.51A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.372l-.36-.214-3.732.888.924-3.638-.235-.374A9.818 9.818 0 1112 21.818z"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink);">WhatsApp</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Chat with us instantly</div>
+      </div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="/cdn-cgi/l/email-protection#57242227273825231724343825323a32793e39" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#FDF8EE;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C8972B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink);">Email Us</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;"><span class="__cf_email__" data-cfemail="34474144445b46407447575b465159511a5d5a">[email&#160;protected]</span></div>
+      </div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="#faq" style="display:flex;align-items:center;gap:14px;padding:14px 0;text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#EDE9FE;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink);">FAQs</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Browse common questions</div>
+      </div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-lin

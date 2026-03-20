@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Gold Loan – Goldfit</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #C8972B; --gold-light: #F5E6C0; --gold-pale: #FDF8EE; --gold-dark: #8B6418;
+    --navy: #1A2B5F; --navy-mid: #243575; --ink: #1C1C1E; --muted: #6B7280;
+    --light-gray: #F4F4F5; --border: #E5E7EB; --white: #FFFFFF;
+    --radius-md: 16px; --radius-pill: 100px;
+  }
+  html, body {
+    font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--ink);
+    max-width: 430px; margin: 0 auto; min-height: 100vh; overflow-x: hidden;
+    padding-bottom: 175px;
+  }
+
+  /* NAV */
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px; background: var(--white);
+    position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 7px; }
+  .nav-logo-icon { width: 32px; height: 32px; background: var(--navy); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .nav-logo-icon svg { width: 18px; height: 18px; }
+  .nav-logo-text { font-size: 17px; font-weight: 600; color: var(--navy); letter-spacing: -0.3px; }
+  .nav-logo-text span { color: var(--gold); }
+  .nav-help {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 600; color: var(--navy);
+  background: var(--light-gray); border: 1px solid var(--border);
+  border-radius: var(--radius-pill); padding: 6px 10px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+}
+  .nav-help svg { width: 14px; height: 14px; }
+
+  /* HERO */
+  .hero { background: linear-gradient(180deg, #FDF3D0 0%, #FFFDF7 60%, #FFFFFF 100%); padding: 36px 24px 30px; text-align: center; border-bottom: none; position: relative; overflow: hidden; }
+  .hero::after { content: ''; position: absolute; bottom: -40px; right: -40px; width: 160px; height: 160px; border-radius: 50%; background: radial-gradient(circle, rgba(200,151,43,0.08) 0%, transparent 70%); pointer-events: none; }
+  .hero-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 1.3px; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 12px; opacity: 0.7; }
+  .hero-title { font-family: 'DM Sans', sans-serif; font-size: 26px; font-weight: 700; color: var(--ink); line-height: 1.25; letter-spacing: -0.3px; margin-bottom: 6px; }
+  .hero-title .accent { color: var(--gold-dark); }
+  .hero-tagline { font-size: 13px; color: var(--muted); font-weight: 400; line-height: 1.5; margin-bottom: 28px; }
+  .hero-illustration { margin: 0 auto 20px; width: 280px; height: 220px; display: flex; align-items: center; justify-content: center; position: relative; }
+  .hero-trust { font-size: 12px; color: var(--gold-dark); font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .hero-trust::before, .hero-trust::after { content: ''; flex: 1; height: 1px; background: #E8D08A; }
+  .hero-pills { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+  .hero-pill { font-size: 11.5px; font-weight: 500; color: var(--ink); background: #FFFFFF; border: 1px solid var(--border); padding: 5px 12px; border-radius: var(--radius-pill); display: flex; align-items: center; gap: 5px; }
+  .hero-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+  /* TICKER */
+  .gold-ticker { margin: 0 20px; background: var(--gold); border-radius: var(--radius-md); padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; margin-top: 16px; }
+  .ticker-left { display: flex; align-items: center; gap: 10px; }
+  .ticker-icon { width: 34px; height: 34px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .ticker-icon svg { width: 18px; height: 18px; }
+  .ticker-label { font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 400; }
+  .ticker-value { font-size: 17px; font-weight: 700; color: var(--white); letter-spacing: -0.3px; }
+  .ticker-right { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+  .ticker-change { font-size: 11px; color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.2); padding: 3px 8px; border-radius: var(--radius-pill); font-weight: 500; }
+  .ticker-change.up::before { content: '▲ '; font-size: 9px; }
+  .ticker-date { font-size: 10px; color: rgba(255,255,255,0.6); }
+
+  /* SECTIONS */
+  .section { padding: 28px 20px 0; }
+  .section-label { font-size: 10px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+
+  /* FEATURE CARDS */
+  .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .feature-card { background: var(--white); border-radius: var(--radius-md); padding: 16px 14px; display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--border); }
+  .feature-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .feature-icon svg { width: 18px; height: 18px; }
+  .feature-icon.amber { background: #FEF3C7; }
+  .feature-icon.blue   { background: #DBEAFE; }
+  .feature-icon.green  { background: #DCFCE7; }
+  .feature-icon.purple { background: #EDE9FE; }
+  .feature-title { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+  .feature-value { font-size: 12px; color: var(--muted); }
+  .feature-value strong { color: var(--gold-dark); font-weight: 600; }
+
+  /* CALCULATOR */
+  .calc-card { background: var(--gold-pale); border: 1px solid var(--gold-light); border-radius: var(--radius-md); padding: 20px; }
+  .calc-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .calc-label { font-size: 13px; color: var(--muted); }
+  .calc-amount { font-size: 24px; font-weight: 700; color: var(--ink); letter-spacing: -0.5px; }
+  input[type="range"] { -webkit-appearance: none; width: 100%; height: 4px; background: var(--gold-light); border-radius: 4px; outline: none; margin: 12px 0; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--gold); border: 3px solid var(--white); box-shadow: 0 2px 6px rgba(0,0,0,0.18); cursor: pointer; }
+  .calc-range-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
+  .calc-emi-box { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--gold-light); }
+  .emi-label { font-size: 12px; color: var(--muted); }
+  .emi-value { font-size: 15px; font-weight: 700; color: var(--gold-dark); }
+
+  /* CHECKLIST */
+  .checklist-card { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 4px 16px; }
+  .checklist-item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .checklist-item:last-child { border-bottom: none; }
+  .check-circle { width: 32px; height: 32px; border-radius: 50%; background: #DCFCE7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .check-circle svg { width: 14px; height: 14px; }
+  .check-text { font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.3; }
+  .check-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  /* TRUST */
+  .trust-strip { display: flex; background: var(--gold-pale); border: 1px solid var(--gold-light); border-radius: var(--radius-md); overflow: hidden; margin: 0 20px; }
+  .trust-item { flex: 1; padding: 16px 10px; text-align: center; }
+  .trust-item + .trust-item { border-left: 1px solid var(--gold-light); }
+  .trust-num { font-size: 18px; font-weight: 700; color: var(--gold-dark); line-height: 1; }
+  .trust-lbl { font-size: 10px; color: var(--muted); margin-top: 3px; }
+
+  /* FIXED CTA */
+  .cta-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 430px;
+    background: var(--white);
+    padding: 14px 20px 30px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 40;
+  }
+  .btn-primary { width: 100%; background: var(--navy); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600; border: none; border-radius: var(--radius-pill); padding: 17px 20px; cursor: pointer; transition: background 0.2s, transform 0.1s; -webkit-tap-highlight-color: transparent; }
+  .btn-primary:active { transform: scale(0.98); background: var(--navy-mid); }
+  .btn-secondary { width: 100%; background: transparent; color: var(--navy); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; border: 1.5px solid var(--navy); border-radius: var(--radius-pill); padding: 14px 20px; cursor: pointer; transition: background 0.2s; -webkit-tap-highlight-color: transparent; }
+  .btn-secondary:active { background: var(--light-gray); }
+  .cta-disclaimer { font-size: 11px; color: var(--muted); text-align: center; line-height: 1.5; }
+  .cta-disclaimer a { color: var(--navy); font-weight: 500; text-decoration: none; }
+
+  /* ANIMATIONS */
+  @keyframes slideUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  .anim { animation: slideUp 0.5s ease both; }
+  .anim-1 { animation-delay: 0.05s; } .anim-2 { animation-delay: 0.12s; }
+  .anim-3 { animation-delay: 0.2s; }  .anim-4 { animation-delay: 0.28s; }
+  .anim-5 { animation-delay: 0.36s; }
+
+/* ── LANGUAGE SELECTOR ── */
+.lang-wrap { position: relative; }
+.lang-btn {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 600; color: var(--navy);
+  background: var(--light-gray); border: 1px solid var(--border);
+  border-radius: var(--radius-pill); padding: 6px 10px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.lang-dropdown {
+  display: none; position: absolute; top: calc(100% + 6px); right: 0;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); min-width: 130px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1); z-index: 200; overflow: hidden;
+}
+.lang-dropdown.open { display: block; }
+.lang-option { padding: 11px 16px; font-size: 13px; color: var(--ink); cursor: pointer; transition: background 0.15s; }
+.lang-option:hover, .lang-option.selected { background: var(--light-gray); font-weight: 600; color: var(--navy); }
+/* ── SHEET OVERLAY (reuse for resume + help) ── */
+..bottom-sheet-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+  z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.bottom-sheet-overlay.open { opacity: 1; pointer-events: all; }
+.bottom-sheet {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%);
+  width: 100%; max-width: 430px; background: var(--white);
+  border-radius: 24px 24px 0 0; padding: 0 0 40px; z-index: 201;
+  max-height: 90vh; overflow-y: auto;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.bottom-sheet.open { transform: translateX(-50%) translateY(0); }
+.sheet-handle { width: 36px; height: 4px; background: var(--border); border-radius: 4px; margin: 12px auto 20px; }
+.sheet-body-pad { padding: 0 24px; }
+.sheet-title { font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.sheet-subtitle { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 24px; }
+/* Resume field */
+.resume-field { margin-bottom: 16px; }
+.resume-label { font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 8px; }
+.resume-input {
+  width: 100%; padding: 14px 16px;
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
+  color: var(--ink); background: var(--white);
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  outline: none; transition: border-color 0.2s; -webkit-appearance: none;
+}
+.resume-input:focus { border-color: var(--navy); }
+.resume-input::placeholder { color: #C0C7D0; font-weight: 400; }
+.resume-btn {
+  width: 100%; background: var(--navy); color: var(--white);
+  font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+  border: none; border-radius: var(--radius-pill); padding: 17px 20px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent; opacity: 0.4;
+  transition: opacity 0.2s;
+}
+.resume-btn.enabled { opacity: 1; }
+.resume-result {
+  display: none; background: var(--light-gray); border-radius: var(--radius-sm);
+  padding: 14px 16px; margin-top: 14px;
+}
+.resume-result.show { display: block; }
+.resume-result-label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+.resume-result-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid var(--border); }
+.resume-result-row:last-child { border-bottom: none; }
+.resume-result-key { font-size: 12px; color: var(--muted); }
+.resume-result-val { font-size: 12px; font-weight: 600; color: var(--ink); }
+.resume-continue-btn {
+  width: 100%; background: var(--navy); color: var(--white);
+  font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+  border: none; border-radius: var(--radius-pill); padding: 16px;
+  cursor: pointer; margin-top: 16px; -webkit-tap-highlight-color: transparent;
+}
+/* Help options */
+.help-option { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); text-decoration: none; -webkit-tap-highlight-color: transparent; }
+.help-option:last-child { border-bottom: none; }
+.help-option-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.help-option-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.help-option-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* ── HELP SHEET OVERLAY ── */
+.sheet-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+  z-index: 200; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.sheet-overlay.open { opacity: 1; pointer-events: all; }
+.otp-sheet {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%);
+  width: 100%; max-width: 430px;
+  background: var(--white); border-radius: 24px 24px 0 0;
+  padding: 0 0 40px; z-index: 201;
+  max-height: 90vh; overflow-y: auto;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.otp-sheet.open { transform: translateX(-50%) translateY(0); }
+
+  @keyframes goldFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+  .hero-illustration svg { animation: goldFloat 3.5s ease-in-out infinite; }
+</style>
+</head>
+<body>
+
+<nav class="nav anim anim-1">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L4 7v5c0 5.25 3.4 10.15 8 11.35C16.6 22.15 20 17.25 20 12V7L12 2z" fill="#F5C55E"/></svg>
+    </div>
+    <span class="nav-logo-text">Gold<span>fit</span></span>
+  </div>
+<div style="display:flex;align-items:center;gap:8px;">
+    <div class="lang-wrap">
+      <button class="lang-btn" onclick="toggleLang()" id="lang-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        <span id="lang-label">EN</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="10" height="10"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="lang-dropdown" id="lang-dropdown">
+        <div class="lang-option selected" onclick="setLang('EN')">English</div>
+        <div class="lang-option" onclick="setLang('HI')">हिंदी</div>
+        <div class="lang-option" onclick="setLang('TA')">தமிழ்</div>
+        <div class="lang-option" onclick="setLang('TE')">తెలుగు</div>
+        <div class="lang-option" onclick="setLang('BN')">বাংলা</div>
+        <div class="lang-option" onclick="setLang('MR')">मराठी</div>
+      </div>
+    </div>
+    <button class="nav-help" onclick="openHelp()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 11.5 19.79 19.79 0 011.29 2.94 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.37a16 16 0 006.29 6.29l1.54-1.54a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Help
+    </button>
+  </div>
+</nav>
+
+<div class="hero anim anim-2">
+  <div class="hero-eyebrow">Goldfit Gold Loan</div>
+  <h1 class="hero-title">Get Up to <span class="accent">₹10 Lakhs</span><br>on Your Gold</h1>
+  <p class="hero-tagline">Foreclose anytime &nbsp;·&nbsp; Zero prepayment fees</p>
+
+  <div class="hero-illustration">
+  <svg width="280" height="220" viewBox="0 0 280 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="bgGlow" cx="50%" cy="55%" r="45%">
+        <stop offset="0%"   stop-color="#F5C55E" stop-opacity="0.22"/>
+        <stop offset="100%" stop-color="#F5C55E" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="coinFace" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+        <stop offset="0%"   stop-color="#FAE07A"/>
+        <stop offset="100%" stop-color="#D4A020"/>
+      </linearGradient>
+      <linearGradient id="coinSide" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+        <stop offset="0%"   stop-color="#C49010"/>
+        <stop offset="100%" stop-color="#8B6010"/>
+      </linearGradient>
+      <linearGradient id="bangGrad" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+        <stop offset="0%"   stop-color="#FBE98A"/>
+        <stop offset="100%" stop-color="#C8972B"/>
+      </linearGradient>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+        <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <!-- ── BACKGROUND GLOW ── -->
+    <ellipse cx="140" cy="130" rx="110" ry="70" fill="url(#bgGlow)"/>
+
+    <!-- ── BANGLES (right side, behind) ── -->
+    <ellipse cx="196" cy="138" rx="32" ry="12" fill="none" stroke="#E8B84B" stroke-width="8" opacity="0.45"/>
+    <ellipse cx="196" cy="125" rx="32" ry="12" fill="none" stroke="url(#bangGrad)" stroke-width="8" opacity="0.55"/>
+    <ellipse cx="196" cy="112" rx="32" ry="12" fill="none" stroke="#F5C55E" stroke-width="8" opacity="0.5"/>
+    <ellipse cx="196" cy="99"  rx="32" ry="12" fill="none" stroke="#DCA030" stroke-width="7" opacity="0.4"/>
+    <!-- bangle shine -->
+    <path d="M168 99 Q196 91 224 99" stroke="white" stroke-width="1.5" opacity="0.25" stroke-linecap="round"/>
+    <path d="M168 112 Q196 104 224 112" stroke="white" stroke-width="1.5" opacity="0.2" stroke-linecap="round"/>
+
+    <!-- ── COIN STACK (main, tall) ── -->
+    <!-- Shadow layers -->
+    <ellipse cx="104" cy="162" rx="48" ry="14" fill="#9A6B00" opacity="0.18"/>
+    <!-- Layer 4 (bottom) -->
+    <ellipse cx="104" cy="155" rx="48" ry="14" fill="#B88010"/>
+    <rect x="56" y="100" width="96" height="55" fill="#B88010"/>
+    <ellipse cx="104" cy="100" rx="48" ry="14" fill="#D4A020"/>
+    <!-- Layer 3 -->
+    <ellipse cx="104" cy="142" rx="48" ry="14" fill="#C49010"/>
+    <rect x="56" y="88" width="96" height="54" fill="#C49010"/>
+    <ellipse cx="104" cy="88" rx="48" ry="14" fill="#DCA830"/>
+    <!-- Layer 2 -->
+    <ellipse cx="104" cy="128" rx="48" ry="14" fill="#D4A020"/>
+    <rect x="56" y="75" width="96" height="53" fill="#D4A020"/>
+    <ellipse cx="104" cy="75" rx="48" ry="14" fill="#E8B840"/>
+    <!-- Layer 1 (top) -->
+    <ellipse cx="104" cy="114" rx="48" ry="14" fill="#C49010"/>
+    <rect x="56" y="62" width="96" height="52" fill="#C49010"/>
+    <ellipse cx="104" cy="62" rx="48" ry="14" fill="#F5C55E"/>
+    <!-- Top coin face details -->
+    <ellipse cx="104" cy="62" rx="38" ry="10.5" fill="none" stroke="#C8972B" stroke-width="1.5" opacity="0.6"/>
+    <ellipse cx="104" cy="62" rx="28" ry="7.5"  fill="none" stroke="#C8972B" stroke-width="1" opacity="0.4"/>
+    <text x="104" y="58" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#8B6418" opacity="0.9">₹</text>
+    <text x="104" y="69" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" font-weight="600" letter-spacing="0.8" fill="#8B6418" opacity="0.6">GOLD</text>
+    <!-- Side highlight streak -->
+    <rect x="56" y="64" width="14" height="140" fill="white" opacity="0.05" rx="2"/>
+
+    <!-- ── FLOATING COINS (left) ── -->
+    <!-- Coin A -->
+    <ellipse cx="44" cy="82" rx="16" ry="5" fill="#C49010"/>
+    <rect x="28" y="68" width="32" height="14" fill="#C49010"/>
+    <ellipse cx="44" cy="68" rx="16" ry="5" fill="#F5C55E"/>
+    <ellipse cx="44" cy="68" rx="12" ry="3.5" fill="none" stroke="#C8972B" stroke-width="1"/>
+    <text x="44" y="71" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" font-weight="700" fill="#8B6418">₹</text>
+
+    <!-- Coin B (smaller, higher) -->
+    <ellipse cx="70" cy="40" rx="13" ry="4" fill="#C49010"/>
+    <rect x="57" y="28" width="26" height="12" fill="#C49010"/>
+    <ellipse cx="70" cy="28" rx="13" ry="4" fill="#F5C55E"/>
+    <ellipse cx="70" cy="28" rx="9"  ry="2.8" fill="none" stroke="#C8972B" stroke-width="0.9"/>
+    <text x="70" y="31" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" font-weight="700" fill="#8B6418">₹</text>
+
+    <!-- Coin C (top right) -->
+    <ellipse cx="160" cy="34" rx="14" ry="4.5" fill="#C49010"/>
+    <rect x="146" y="22" width="28" height="12" fill="#C49010"/>
+    <ellipse cx="160" cy="22" rx="14" ry="4.5" fill="#F5C55E"/>
+    <ellipse cx="160" cy="22" rx="10" ry="3"   fill="none" stroke="#C8972B" stroke-width="0.9"/>
+    <text x="160" y="25" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7.5" font-weight="700" fill="#8B6418">₹</text>
+
+    <!-- ── SPARKLES ── -->
+    <!-- Big sparkle top-right -->
+    <line x1="228" y1="56" x2="228" y2="42" stroke="#F5C55E" stroke-width="1.5" stroke-linecap="round" filter="url(#glow)" opacity="0.9"/>
+    <line x1="221" y1="49" x2="235" y2="49" stroke="#F5C55E" stroke-width="1.5" stroke-linecap="round" filter="url(#glow)" opacity="0.9"/>
+    <circle cx="228" cy="49" r="3" fill="#F5C55E" opacity="0.7" filter="url(#glow)"/>
+    <!-- Diagonal lines -->
+    <line x1="224" y1="45" x2="232" y2="53" stroke="#F5C55E" stroke-width="0.8" opacity="0.5" stroke-linecap="round"/>
+    <line x1="232" y1="45" x2="224" y2="53" stroke="#F5C55E" stroke-width="0.8" opacity="0.5" stroke-linecap="round"/>
+
+    <!-- Medium sparkle top-left -->
+    <line x1="30" y1="44" x2="30" y2="34" stroke="#F5D060" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>
+    <line x1="25" y1="39" x2="35"  y2="39" stroke="#F5D060" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>
+    <circle cx="30" cy="39" r="2.2" fill="#F5D060" opacity="0.6"/>
+
+    <!-- Small sparkle mid-right -->
+    <line x1="248" y1="110" x2="248" y2="103" stroke="#E8B84B" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+    <line x1="244" y1="107" x2="252" y2="107" stroke="#E8B84B" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+    <circle cx="248" cy="107" r="1.8" fill="#E8B84B" opacity="0.5"/>
+
+    <!-- Tiny dots -->
+    <circle cx="20"  cy="110" r="2.5" fill="#F5C55E" opacity="0.4"/>
+    <circle cx="244" cy="74"  r="2"   fill="#F5D060" opacity="0.35"/>
+    <circle cx="186" cy="52"  r="1.5" fill="#F5C55E" opacity="0.4"/>
+    <circle cx="52"  cy="130" r="1.8" fill="#E8B84B" opacity="0.3"/>
+
+    <!-- ── GROUND SHADOW ── -->
+    <ellipse cx="140" cy="192" rx="90" ry="10" fill="#C8972B" opacity="0.08"/>
+  </svg>
+</div>
+
+  <div class="hero-pills">
+    <div class="hero-pill"><span class="dot"></span>0.79% / month</div>
+    <div class="hero-pill"><span class="dot"></span>Starts ₹20,000</div>
+    <div class="hero-pill"><span class="dot"></span>No paperwork</div>
+  </div>
+
+  <div class="hero-trust">Trusted by 20,000+ customers last week</div>
+</div>
+
+<div class="gold-ticker anim anim-3">
+  <div class="ticker-left">
+    <div class="ticker-icon">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.25)"/><text x="12" y="16.5" text-anchor="middle" font-size="12" font-weight="700" fill="white">Au</text></svg>
+    </div>
+    <div>
+      <div class="ticker-label">Gold Rate (22K)</div>
+      <div class="ticker-value">₹11,326 / g</div>
+    </div>
+  </div>
+  <div class="ticker-right">
+    <div class="ticker-change up">+0.42%</div>
+    <div class="ticker-date">Today, 17 Mar</div>
+  </div>
+</div>
+
+<div class="section anim anim-3">
+  <div class="section-label">Why choose us</div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon amber">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" fill="#F59E0B"/>
+          <polyline points="12 7 12 12 15 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div><div class="feature-title">Quick Processing</div><div class="feature-value">Loan in <strong>4 days</strong></div></div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon blue">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="4" width="20" height="16" rx="3" fill="#3B82F6"/>
+          <path d="M2 9h20" stroke="white" stroke-width="1.5"/>
+          <rect x="5" y="13" width="5" height="2" rx="1" fill="white"/>
+          <rect x="12" y="13" width="7" height="2" rx="1" fill="white" opacity="0.5"/>
+        </svg>
+      </div>
+      <div><div class="feature-title">Low Interest</div><div class="feature-value">Starting <strong>0.79%/mo</strong></div></div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon green">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="18" height="18" rx="3" fill="#16A34A"/>
+          <path d="M7 12l3 3 7-6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div><div class="feature-title">Flexible Repay</div><div class="feature-value">Bullet or <strong>EMI</strong> options</div></div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon purple">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L4 6v6c0 5.25 3.4 9.15 8 10.35C16.6 21.15 20 17.25 20 12V6L12 2z" fill="#7C3AED"/>
+          <path d="M9 12l2 2 4-4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div><div class="feature-title">Gold Secured</div><div class="feature-value"><strong>100%</strong> insured safe</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section anim anim-4">
+  <div class="section-label">Estimate your loan</div>
+  <div class="calc-card">
+    <div class="calc-row">
+      <div class="calc-label">Gold weight</div>
+      <div class="calc-amount"><span id="weightVal">10</span><span style="font-size:15px;font-weight:500;color:var(--muted);margin-left:3px">g</span></div>
+    </div>
+    <input type="range" min="5" max="100" value="10" step="1" id="weightSlider">
+    <div class="calc-range-labels"><span>5g</span><span>100g</span></div>
+    <div class="calc-emi-box">
+      <div><div class="emi-label">Estimated loan amount</div><div class="emi-value" id="loanAmt">₹84,945</div></div>
+      <div style="text-align:right"><div class="emi-label">Monthly interest</div><div class="emi-value" id="monthlyInt">₹671</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section anim anim-4">
+  <div class="section-label">Before you begin</div>
+  <div class="checklist-card">
+    <div class="checklist-item">
+      <div class="check-circle"><svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div><div class="check-text">PAN Card</div><div class="check-sub">For identity verification</div></div>
+    </div>
+    <div class="checklist-item">
+      <div class="check-circle"><svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div><div class="check-text">Aadhaar-linked Mobile Number</div><div class="check-sub">For OTP verification</div></div>
+    </div>
+    <div class="checklist-item">
+      <div class="check-circle"><svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div><div class="check-text">22K Gold Ornaments</div><div class="check-sub">Minimum 5g required</div></div>
+    </div>
+  </div>
+</div>
+
+<div style="padding: 28px 20px 0;">
+  <div class="trust-strip anim anim-5">
+    <div class="trust-item"><div class="trust-num">20K+</div><div class="trust-lbl">Loans last week</div></div>
+    <div class="trust-item"><div class="trust-num">4.8★</div><div class="trust-lbl">Customer rating</div></div>
+    <div class="trust-item"><div class="trust-num">₹500Cr+</div><div class="trust-lbl">Disbursed total</div></div>
+  </div>
+</div>
+
+<!-- ALWAYS-VISIBLE FIXED CTA -->
+<div class="cta-fixed">
+  <button class="btn-primary" onclick="window.location.href='gold-loan-verification.html'">Apply Now →</button>
+  <button class="btn-secondary" onclick="openResume()">Resume / Track Application</button>
+  <div class="cta-disclaimer">
+    By continuing you agree to our <a href="#">Terms</a> &amp; <a href="#">Privacy Policy</a>
+  </div>
+</div>
+
+<script>
+  const slider = document.getElementById('weightSlider');
+  const GOLD_RATE = 11326, LTV = 0.75, RATE = 0.0079;
+  function update() {
+    const g = parseInt(slider.value);
+    document.getElementById('weightVal').textContent = g;
+    const loan = Math.round(g * GOLD_RATE * LTV);
+    document.getElementById('loanAmt').textContent = '₹' + loan.toLocaleString('en-IN');
+    document.getElementById('monthlyInt').textContent = '₹' + Math.round(loan * RATE).toLocaleString('en-IN');
+  }
+  slider.addEventListener('input', update);
+  update();
+
+
+  // ── RESUME ──
+  function openResume() {
+    document.getElementById('resume-overlay').classList.add('open');
+    document.getElementById('resume-sheet').classList.add('open');
+    setTimeout(() => document.getElementById('resume-input').focus(), 400);
+  }
+  function closeResume() {
+    document.getElementById('resume-overlay').classList.remove('open');
+    document.getElementById('resume-sheet').classList.remove('open');
+  }
+  function handleResumeInput() {
+    const v = document.getElementById('resume-input').value.trim();
+    document.getElementById('resume-btn').classList.toggle('enabled', v.length >= 8);
+    document.getElementById('resume-result').classList.remove('show');
+  }
+  function fetchApplication() {
+    if (!document.getElementById('resume-btn').classList.contains('enabled')) return;
+    // Simulate fetch - show dummy result
+    document.getElementById('resume-result').classList.add('show');
+  }
+  function continueApplication() {
+    window.location.href = 'gold-loan-applicant.html';
+  }
+
+</script>
+<script>
+  // Force fresh reload when navigating back to this page
+  window.addEventListener('pageshow', function(e) {
+    if (e.persisted) {
+      window.location.reload();
+    }
+  });
+
+
+  // ── RESUME ──
+  function openResume() {
+    document.getElementById('resume-overlay').classList.add('open');
+    document.getElementById('resume-sheet').classList.add('open');
+    setTimeout(() => document.getElementById('resume-input').focus(), 400);
+  }
+  function closeResume() {
+    document.getElementById('resume-overlay').classList.remove('open');
+    document.getElementById('resume-sheet').classList.remove('open');
+  }
+  function handleResumeInput() {
+    const v = document.getElementById('resume-input').value.trim();
+    document.getElementById('resume-btn').classList.toggle('enabled', v.length >= 8);
+    document.getElementById('resume-result').classList.remove('show');
+  }
+  function fetchApplication() {
+    if (!document.getElementById('resume-btn').classList.contains('enabled')) return;
+    // Simulate fetch - show dummy result
+    document.getElementById('resume-result').classList.add('show');
+  }
+  function continueApplication() {
+    window.location.href = 'gold-loan-applicant.html';
+  }
+
+
+  function toggleLang() {
+    document.getElementById('lang-dropdown').classList.toggle('open');
+  }
+  function setLang(code) {
+    document.getElementById('lang-label').textContent = code;
+    document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('selected'));
+    event.target.classList.add('selected');
+    document.getElementById('lang-dropdown').classList.remove('open');
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.lang-wrap')) {
+      const dd = document.getElementById('lang-dropdown');
+      if (dd) dd.classList.remove('open');
+    }
+  });
+  function openHelp() {
+    document.getElementById('help-overlay').classList.add('open');
+    document.getElementById('help-sheet').classList.add('open');
+  }
+  function closeHelp() {
+    document.getElementById('help-overlay').classList.remove('open');
+    document.getElementById('help-sheet').classList.remove('open');
+  }
+</script>
+
+<!-- RESUME SHEET -->
+<div class="sheet-overlay" id="resume-overlay" onclick="closeResume()"></div>
+<div class="otp-sheet" id="resume-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-body-pad">
+    <div class="sheet-title">Resume Application</div>
+    <div class="sheet-subtitle">Enter your mobile number or application reference number to continue.</div>
+    <div class="resume-field">
+      <div class="resume-label">Mobile Number / Reference Number</div>
+      <input class="resume-input" id="resume-input" type="tel"
+        placeholder="e.g. 9876543210 or GFGL000000021"
+        oninput="handleResumeInput()">
+    </div>
+    <button class="resume-btn" id="resume-btn" onclick="fetchApplication()">Find My Application</button>
+    <div class="resume-result" id="resume-result">
+      <div class="resume-result-label">Application Found</div>
+      <div class="resume-result-row"><span class="resume-result-key">Reference No.</span><span class="resume-result-val">GFGL000000021</span></div>
+      <div class="resume-result-row"><span class="resume-result-key">Applicant</span><span class="resume-result-val">Rajesh Kumar</span></div>
+      <div class="resume-result-row"><span class="resume-result-key">Last Step</span><span class="resume-result-val">Applicant Details</span></div>
+      <div class="resume-result-row"><span class="resume-result-key">Status</span><span class="resume-result-val" style="color:var(--gold-dark)">In Progress</span></div>
+      <button class="resume-continue-btn" onclick="continueApplication()">Continue Application →</button>
+    </div>
+  </div>
+</div>
+
+<!-- HELP SHEET -->
+<div class="sheet-overlay" id="help-overlay" onclick="closeHelp()"></div>
+<div class="otp-sheet" id="help-sheet">
+  <div class="sheet-handle"></div>
+  <div style="padding:0 24px 24px;">
+    <div style="font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px;">Need Help?</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;">Support team available Mon–Sat, 9 AM – 6 PM</div>
+    <a href="tel:18001234567" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#EFF6FF;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 11.5 19.79 19.79 0 011.29 2.94 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.37a16 16 0 006.29 6.29l1.54-1.54a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      </div>
+      <div><div style="font-size:14px;font-weight:600;color:var(--ink);">Call Us</div><div style="font-size:12px;color:var(--muted);margin-top:2px;">1800-123-4567 · Toll Free</div></div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="https://wa.me/911800123456" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#DCFCE7;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="#16A34A" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.121 1.532 5.855L0 24l6.335-1.51A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.372l-.36-.214-3.732.888.924-3.638-.235-.374A9.818 9.818 0 1112 21.818z"/></svg>
+      </div>
+      <div><div style="font-size:14px;font-weight:600;color:var(--ink);">WhatsApp</div><div style="font-size:12px;color:var(--muted);margin-top:2px;">Chat with us instantly</div></div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="/cdn-cgi/l/email-protection#2e5d5b5e5e415c5a6e4941424a48475a004740" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#FDF8EE;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C8972B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div><div style="font-size:14px;font-weight:600;color:var(--ink);">Email Us</div><div style="font-size:12px;color:var(--muted);margin-top:2px;"><span class="__cf_email__" data-cfemail="9be8eeebebf4e9efdbfcf4f7fffdf2efb5f2f5">[email&#160;protected]</span></div></div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="#faq" style="display:flex;align-items:center;gap:14px;padding:14px 0;text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#EDE9FE;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div><div style="font-size:14px;font-weight:600;color:var(--ink);">FAQs</div><div style="font-size:12px;color:var(--muted);margin-top:2px;">Browse common questions</div></div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-lin

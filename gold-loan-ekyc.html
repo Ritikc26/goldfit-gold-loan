@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>eKYC – Goldfit Gold Loan</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #C8972B; --gold-light: #F5E6C0; --gold-pale: #FDF8EE; --gold-dark: #8B6418;
+  --navy: #1A2B5F; --navy-mid: #243575; --ink: #1C1C1E; --muted: #6B7280;
+  --light-gray: #F4F4F5; --border: #E5E7EB; --white: #FFFFFF;
+  --success: #16A34A; --success-bg: #DCFCE7;
+  --error: #DC2626;
+  --radius-sm: 10px; --radius-md: 14px; --radius-lg: 20px; --radius-pill: 100px;
+}
+html, body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--light-gray); color: var(--ink);
+  max-width: 430px; margin: 0 auto;
+  min-height: 100vh; overflow-x: hidden;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-left { display: flex; align-items: center; gap: 12px; }
+.back-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--light-gray); border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+.back-btn svg { width: 18px; height: 18px; }
+.topbar-title { font-size: 15px; font-weight: 600; color: var(--ink); }
+.help-btn {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 600; color: var(--navy);
+  background: var(--light-gray); border: 1px solid var(--border);
+  border-radius: var(--radius-pill); padding: 6px 10px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.help-btn svg { width: 16px; height: 16px; }
+
+/* ── STEP PROGRESS ── */
+.step-progress {
+  padding: 16px 20px 0;
+  background: var(--white);
+}
+.step-track {
+  display: flex; align-items: center; gap: 0;
+  overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+  padding-bottom: 12px;
+}
+.step-track::-webkit-scrollbar { display: none; }
+.step-item {
+  display: flex; align-items: center; gap: 0;
+  flex-shrink: 0;
+}
+.step-dot {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600; flex-shrink: 0;
+  transition: all 0.3s;
+}
+.step-dot.active   { background: var(--navy); color: var(--white); }
+.step-dot.done     { background: var(--success-bg); color: var(--success); }
+.step-dot.inactive { background: var(--light-gray); color: var(--muted); }
+.step-label {
+  font-size: 11px; font-weight: 500; margin-left: 5px;
+  white-space: nowrap; transition: color 0.3s;
+}
+.step-label.active   { color: var(--navy); }
+.step-label.done     { color: var(--success); }
+.step-label.inactive { color: var(--muted); }
+.step-line {
+  width: 20px; height: 1px;
+  background: var(--border); margin: 0 6px; flex-shrink: 0;
+}
+.step-line.done { background: var(--success); }
+
+/* progress bar */
+.progress-bar-wrap {
+  height: 3px; background: var(--light-gray);
+  margin: 0 20px 0; border-radius: 4px; overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%; width: 28.56%;
+  background: var(--navy); border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+/* ── BODY ── */
+.body { padding: 28px 20px 160px; }
+
+.screen-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: var(--gold-pale); border: 1px solid var(--gold-light);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.screen-icon svg { width: 26px; height: 26px; }
+.screen-title {
+  font-size: 22px; font-weight: 700; color: var(--ink);
+  letter-spacing: -0.4px; margin-bottom: 6px; line-height: 1.2;
+}
+.screen-subtitle {
+  font-size: 13.5px; color: var(--muted); line-height: 1.55;
+  margin-bottom: 32px; max-width: 320px;
+}
+
+/* ── FIELD ── */
+.field-label {
+  font-size: 11px; font-weight: 600; color: var(--muted);
+  letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 8px;
+}
+.field { margin-bottom: 20px; }
+.field-wrap { position: relative; }
+.field-input {
+  width: 100%; padding: 15px 46px 15px 16px;
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
+  color: var(--ink); background: var(--white);
+  border: 1.5px solid var(--border); border-radius: var(--radius-md);
+  outline: none; transition: border-color 0.2s;
+  -webkit-appearance: none; letter-spacing: 3px;
+}
+.field-input:focus { border-color: var(--navy); }
+.field-input::placeholder { color: #C0C7D0; font-weight: 400; letter-spacing: 0; }
+.field-input.valid { border-color: var(--success); }
+.field-input.error { border-color: var(--error); }
+.field-icon {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  width: 20px; height: 20px; pointer-events: none;
+}
+.field-icon svg { width: 20px; height: 20px; }
+.field-hint { font-size: 12px; color: var(--muted); margin-top: 7px; line-height: 1.4; }
+.field-error { font-size: 12px; color: var(--error); margin-top: 7px; display: none; }
+
+/* ── AADHAAR GROUP DISPLAY ── */
+.aadhaar-groups {
+  display: flex; gap: 8px; align-items: center; margin-top: 10px;
+}
+.aadhaar-grp {
+  flex: 1; background: var(--light-gray); border-radius: 8px;
+  padding: 8px 0; text-align: center;
+  font-size: 14px; font-weight: 600; color: var(--muted);
+  letter-spacing: 2px; font-family: monospace;
+  transition: background 0.2s, color 0.2s;
+}
+.aadhaar-grp.filled { background: #EEF2FF; color: var(--navy); }
+.aadhaar-sep { font-size: 14px; color: var(--border); font-weight: 600; }
+
+/* ── CONSENT ROW ── */
+.consent-row {
+  display: flex; align-items: flex-start; gap: 12px;
+  margin-bottom: 20px; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.checkbox-outer {
+  width: 20px; height: 20px; border-radius: 5px;
+  border: 2px solid var(--border); background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px; transition: all 0.2s;
+}
+.checkbox-outer.checked { background: var(--navy); border-color: var(--navy); }
+.checkbox-outer svg { width: 12px; height: 12px; opacity: 0; transition: opacity 0.2s; }
+.checkbox-outer.checked svg { opacity: 1; }
+.consent-text { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+.consent-text a { color: var(--navy); font-weight: 500; text-decoration: none; }
+
+/* ── SECURITY BADGE ── */
+.security-badge {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--success-bg); border: 1px solid #BBF7D0;
+  border-radius: var(--radius-md); padding: 12px 14px;
+  margin-top: 8px;
+}
+.security-badge svg { width: 18px; height: 18px; flex-shrink: 0; }
+.security-text { font-size: 12px; color: #15803D; line-height: 1.4; }
+.security-text strong { font-weight: 600; }
+
+/* ── STICKY CTA ── */
+.cta-fixed {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 430px;
+  background: var(--white); padding: 14px 20px 30px;
+  border-top: 1px solid var(--border); z-index: 40;
+}
+.btn-primary {
+  width: 100%; background: var(--navy); color: var(--white);
+  font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+  border: none; border-radius: var(--radius-pill); padding: 17px 20px;
+  cursor: pointer; transition: background 0.2s, transform 0.1s, opacity 0.2s;
+  -webkit-tap-highlight-color: transparent; opacity: 0.4;
+}
+.btn-primary.enabled { opacity: 1; }
+.btn-primary.enabled:active { transform: scale(0.98); background: var(--navy-mid); }
+
+/* ── OTP BOTTOM SHEET ── */
+.sheet-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+  z-index: 200; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.sheet-overlay.open { opacity: 1; pointer-events: all; }
+.otp-sheet {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%);
+  width: 100%; max-width: 430px;
+  background: var(--white); border-radius: 24px 24px 0 0;
+  padding: 0 0 40px; z-index: 201;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.otp-sheet.open { transform: translateX(-50%) translateY(0); }
+.sheet-handle {
+  width: 36px; height: 4px; background: var(--border);
+  border-radius: 4px; margin: 12px auto 20px;
+}
+.sheet-body { padding: 0 24px 0; }
+.sheet-title { font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.sheet-sub { font-size: 13.5px; color: var(--muted); line-height: 1.5; margin-bottom: 28px; }
+.sheet-sub strong { color: var(--ink); font-weight: 600; }
+.otp-row { display: flex; gap: 10px; justify-content: center; margin-bottom: 8px; }
+.otp-box {
+  width: 52px; height: 58px;
+  border: 1.5px solid var(--border); border-radius: var(--radius-md);
+  font-size: 24px; font-weight: 700; color: var(--ink);
+  text-align: center; font-family: 'DM Sans', sans-serif;
+  background: var(--white); outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none; caret-color: var(--navy);
+}
+.otp-box:focus { border-color: var(--navy); }
+.otp-box.filled { border-color: var(--navy); background: #F0F3FF; }
+.otp-hint { font-size: 12px; color: var(--muted); text-align: center; margin-bottom: 20px; }
+.otp-resend { font-size: 13px; color: var(--muted); text-align: center; margin-bottom: 24px; }
+.otp-resend a { color: var(--navy); font-weight: 600; text-decoration: none; }
+.otp-success {
+  display: none; flex-direction: column; align-items: center;
+  padding: 8px 0 16px; text-align: center;
+}
+.otp-success.show { display: flex; }
+.success-circle {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--success-bg); display: flex;
+  align-items: center; justify-content: center; margin-bottom: 14px;
+}
+.success-circle svg { width: 32px; height: 32px; }
+.success-title { font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.success-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+.autofill-box {
+  width: 100%; background: var(--light-gray);
+  border-radius: var(--radius-md); padding: 14px 16px;
+  margin-bottom: 20px; text-align: left;
+}
+.autofill-heading {
+  font-size: 10px; font-weight: 600; color: var(--muted);
+  letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 10px;
+}
+.autofill-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 0; border-bottom: 1px solid var(--border);
+}
+.autofill-row:last-child { border-bottom: none; padding-bottom: 0; }
+.af-key { font-size: 12px; color: var(--muted); }
+.af-val { font-size: 12px; font-weight: 600; color: var(--ink); }
+.sheet-btn {
+  width: 100%; background: var(--navy); color: var(--white);
+  font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+  border: none; border-radius: var(--radius-pill); padding: 17px 20px;
+  cursor: pointer; transition: background 0.2s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent; margin-top: 4px; opacity: 0.4;
+}
+.sheet-btn.enabled { opacity: 1; }
+.sheet-btn.enabled:active { transform: scale(0.98); }
+
+/* ── LANGUAGE SELECTOR ── */
+.lang-wrap { position: relative; }
+.lang-btn {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 600; color: var(--navy);
+  background: var(--light-gray); border: 1px solid var(--border);
+  border-radius: var(--radius-pill); padding: 6px 10px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.lang-dropdown {
+  display: none; position: absolute; top: calc(100% + 6px); right: 0;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); min-width: 130px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1); z-index: 200; overflow: hidden;
+}
+.lang-dropdown.open { display: block; }
+.lang-option {
+  padding: 11px 16px; font-size: 13px; color: var(--ink);
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+}
+.lang-option:hover, .lang-option.selected { background: var(--light-gray); font-weight: 600; color: var(--navy); }
+/* ── HELP SHEET ── */
+.help-option {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+  text-decoration: none; -webkit-tap-highlight-color: transparent;
+}
+.help-option:last-child { border-bottom: none; }
+.help-option-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.help-option-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.help-option-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="back-btn" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+    </button>
+    <span class="topbar-title">eKYC Verification</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <div class="lang-wrap">
+      <button class="lang-btn" onclick="toggleLang()" id="lang-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        <span id="lang-label">EN</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="10" height="10"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="lang-dropdown" id="lang-dropdown">
+        <div class="lang-option selected" onclick="setLang('EN')">English</div>
+        <div class="lang-option" onclick="setLang('HI')">हिंदी</div>
+        <div class="lang-option" onclick="setLang('TA')">தமிழ்</div>
+        <div class="lang-option" onclick="setLang('TE')">తెలుగు</div>
+        <div class="lang-option" onclick="setLang('BN')">বাংলা</div>
+        <div class="lang-option" onclick="setLang('MR')">मराठी</div>
+      </div>
+    </div>
+    <button class="help-btn" onclick="openHelp()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 11.5 19.79 19.79 0 011.29 2.94 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.37a16 16 0 006.29 6.29l1.54-1.54a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Help
+    </button>
+  </div>
+</div>
+
+<!-- STEP PROGRESS -->
+<div class="step-progress">
+  <div class="step-track">
+    <div class="step-item">
+      <div class="step-dot done">✓</div>
+      <span class="step-label done">Verification</span>
+    </div>
+    <div class="step-line done"></div>
+    <div class="step-item">
+      <div class="step-dot active">2</div>
+      <span class="step-label active">eKYC</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item">
+      <div class="step-dot inactive">3</div>
+      <span class="step-label inactive">Applicant</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item">
+      <div class="step-dot inactive">4</div>
+      <span class="step-label inactive">Employment</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item">
+      <div class="step-dot inactive">5</div>
+      <span class="step-label inactive">Nominee</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item">
+      <div class="step-dot inactive">6</div>
+      <span class="step-label inactive">Loan & Branch</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item">
+      <div class="step-dot inactive">7</div>
+      <span class="step-label inactive">Summary</span>
+    </div>
+  </div>
+</div>
+<div class="progress-bar-wrap">
+  <div class="progress-bar-fill"></div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <div class="screen-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#8B6418" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="4" width="20" height="16" rx="2"/>
+      <path d="M7 8h4M7 12h6M7 16h3"/>
+      <circle cx="17" cy="14" r="2.5"/>
+      <path d="M19 16.5L21 18.5"/>
+    </svg>
+  </div>
+  <h1 class="screen-title">Aadhaar eKYC</h1>
+  <p class="screen-subtitle">Enter your 12-digit Aadhaar number. An OTP will be sent to your Aadhaar-linked mobile number.</p>
+
+  <!-- AADHAAR INPUT -->
+  <div class="field-label">Aadhaar Number</div>
+  <div class="field">
+    <div class="field-wrap">
+      <input class="field-input" id="input-aadhaar" type="tel" maxlength="12"
+        placeholder="Enter 12-digit number"
+        oninput="handleAadhaar()" autocomplete="off">
+      <div class="field-icon" id="icon-aadhaar" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+    </div>
+    <div class="field-error" id="error-aadhaar">Aadhaar number must be exactly 12 digits</div>
+    <div class="aadhaar-groups">
+      <div class="aadhaar-grp" id="grp1">····</div>
+      <div class="aadhaar-sep">—</div>
+      <div class="aadhaar-grp" id="grp2">····</div>
+      <div class="aadhaar-sep">—</div>
+      <div class="aadhaar-grp" id="grp3">····</div>
+    </div>
+    <div class="field-hint">As printed on your Aadhaar card</div>
+  </div>
+
+  <!-- CONSENT -->
+  <div class="consent-row" onclick="toggleConsent()">
+    <div class="checkbox-outer" id="consent-check">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+    <div class="consent-text">
+      I consent to share my Aadhaar details with Goldfit for eKYC as per <a href="#">UIDAI guidelines</a> and <a href="#">Privacy Policy</a>
+    </div>
+  </div>
+
+  <!-- SECURITY BADGE -->
+  <div class="security-badge">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      <path d="M9 12l2 2 4-4"/>
+    </svg>
+    <div class="security-text">
+      <strong>256-bit encrypted</strong> · Your Aadhaar data is never stored or shared without consent
+    </div>
+  </div>
+
+</div>
+
+<!-- STICKY CTA -->
+<div class="cta-fixed">
+  <button class="btn-primary" id="send-otp-btn" onclick="openOTPSheet()">Send OTP on Aadhaar Mobile</button>
+</div>
+
+<!-- OVERLAY -->
+<div class="sheet-overlay" id="overlay" onclick="closeOTPSheet()"></div>
+
+<!-- OTP BOTTOM SHEET -->
+<div class="otp-sheet" id="otp-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-body">
+
+    <div id="otp-state-input">
+      <div class="sheet-title">Enter OTP</div>
+      <p class="sheet-sub">OTP sent to mobile linked with Aadhaar <strong id="aadhaar-masked"></strong></p>
+      <div class="otp-row">
+        <input class="otp-box" id="otp1" type="tel" maxlength="1" oninput="otpInput(this,1)" onkeydown="otpKeydown(this,1,event)">
+        <input class="otp-box" id="otp2" type="tel" maxlength="1" oninput="otpInput(this,2)" onkeydown="otpKeydown(this,2,event)">
+        <input class="otp-box" id="otp3" type="tel" maxlength="1" oninput="otpInput(this,3)" onkeydown="otpKeydown(this,3,event)">
+        <input class="otp-box" id="otp4" type="tel" maxlength="1" oninput="otpInput(this,4)" onkeydown="otpKeydown(this,4,event)">
+        <input class="otp-box" id="otp5" type="tel" maxlength="1" oninput="otpInput(this,5)" onkeydown="otpKeydown(this,5,event)">
+        <input class="otp-box" id="otp6" type="tel" maxlength="1" oninput="otpInput(this,6)" onkeydown="otpKeydown(this,6,event)">
+      </div>
+      <div class="otp-hint">Enter the 6-digit OTP</div>
+      <div class="otp-resend">
+        Didn't receive it?
+        <a href="#" id="resend-link" onclick="resendOTP(event)">Resend OTP</a>
+        <span id="timer-text"> in <span id="timer-count">30</span>s</span>
+      </div>
+      <button class="sheet-btn" id="verify-btn" onclick="verifyOTP()">Verify OTP</button>
+    </div>
+
+    <div class="otp-success" id="otp-state-success">
+      <div class="success-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <div class="success-title">eKYC Successful!</div>
+      <div class="success-sub">Details fetched from Aadhaar</div>
+      <div class="autofill-box">
+        <div class="autofill-heading">Fetched from Aadhaar</div>
+        <div class="autofill-row"><span class="af-key">Full Name</span><span class="af-val">Rajesh Kumar</span></div>
+        <div class="autofill-row"><span class="af-key">Date of Birth</span><span class="af-val">12 Mar 1985</span></div>
+        <div class="autofill-row"><span class="af-key">Gender</span><span class="af-val">Male</span></div>
+        <div class="autofill-row"><span class="af-key">Address</span><span class="af-val">Mumbai, Maharashtra</span></div>
+      </div>
+      <button class="sheet-btn enabled" onclick="goToApplicant()">Continue to Applicant Details →</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  let consentGiven = false;
+  let timerInterval = null;
+
+  function goBack() {
+    if (document.referrer) history.back();
+    else window.location.href = 'gold-loan-verification.html';
+  }
+
+  // ── AADHAAR INPUT ──
+  function handleAadhaar() {
+    const el = document.getElementById('input-aadhaar');
+    el.value = el.value.replace(/\D/g, '');
+    const val = el.value;
+    const len = val.length;
+
+    // Update group display
+    const g1 = val.slice(0,4).padEnd(4,'·');
+    const g2 = val.slice(4,8).padEnd(4,'·');
+    const g3 = val.slice(8,12).padEnd(4,'·');
+    const grp1 = document.getElementById('grp1');
+    const grp2 = document.getElementById('grp2');
+    const grp3 = document.getElementById('grp3');
+    grp1.textContent = g1; grp1.classList.toggle('filled', len >= 4);
+    grp2.textContent = g2; grp2.classList.toggle('filled', len >= 8);
+    grp3.textContent = g3; grp3.classList.toggle('filled', len === 12);
+
+    const valid = len === 12;
+    el.classList.toggle('valid', valid);
+    el.classList.toggle('error', false);
+    document.getElementById('error-aadhaar').style.display = 'none';
+    document.getElementById('icon-aadhaar').style.display = valid ? 'block' : 'none';
+    checkReady();
+  }
+
+  // ── CONSENT ──
+  function toggleConsent() {
+    consentGiven = !consentGiven;
+    document.getElementById('consent-check').classList.toggle('checked', consentGiven);
+    checkReady();
+  }
+
+  function checkReady() {
+    const ok = document.getElementById('input-aadhaar').value.length === 12 && consentGiven;
+    document.getElementById('send-otp-btn').classList.toggle('enabled', ok);
+  }
+
+  // ── OTP SHEET ──
+  function openOTPSheet() {
+    if (!document.getElementById('send-otp-btn').classList.contains('enabled')) return;
+    const val = document.getElementById('input-aadhaar').value;
+    document.getElementById('aadhaar-masked').textContent = 'XXXX XXXX ' + val.slice(8);
+    resetOTPSheet();
+    document.getElementById('overlay').classList.add('open');
+    document.getElementById('otp-sheet').classList.add('open');
+    startTimer();
+    setTimeout(() => document.getElementById('otp1').focus(), 400);
+  }
+
+  function resetOTPSheet() {
+    for (let i = 1; i <= 6; i++) {
+      const b = document.getElementById('otp' + i);
+      b.value = ''; b.classList.remove('filled');
+    }
+    document.getElementById('verify-btn').classList.remove('enabled');
+    document.getElementById('otp-state-input').style.display = 'block';
+    document.getElementById('otp-state-success').classList.remove('show');
+  }
+
+  function closeOTPSheet() {
+    document.getElementById('overlay').classList.remove('open');
+    document.getElementById('otp-sheet').classList.remove('open');
+    clearInterval(timerInterval);
+  }
+
+  // ── OTP INPUT ──
+  function otpInput(el, idx) {
+    const v = el.value.replace(/\D/g, '');
+    if (v.length > 1) {
+      const digits = v.split('').slice(0, 6);
+      digits.forEach((d, i) => {
+        const box = document.getElementById('otp' + (idx + i));
+        if (box) { box.value = d; box.classList.add('filled'); }
+      });
+      document.getElementById('otp' + Math.min(idx + digits.length - 1, 6)).focus();
+      checkOTPReady(); return;
+    }
+    el.value = v;
+    if (v) { el.classList.add('filled'); if (idx < 6) document.getElementById('otp' + (idx + 1)).focus(); }
+    else el.classList.remove('filled');
+    checkOTPReady();
+  }
+
+  function otpKeydown(el, idx, e) {
+    if (e.key === 'Backspace') {
+      if (el.value) { el.value = ''; el.classList.remove('filled'); checkOTPReady(); }
+      else if (idx > 1) {
+        const prev = document.getElementById('otp' + (idx - 1));
+        prev.value = ''; prev.classList.remove('filled'); prev.focus(); checkOTPReady();
+      }
+      e.preventDefault();
+    }
+    if (!/^[0-9]$/.test(e.key) && !['Backspace','Tab','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
+  }
+
+  function checkOTPReady() {
+    let full = true;
+    for (let i = 1; i <= 6; i++) { if (!document.getElementById('otp' + i).value) { full = false; break; } }
+    document.getElementById('verify-btn').classList.toggle('enabled', full);
+  }
+
+  // ── TIMER ──
+  function startTimer() {
+    let secs = 30;
+    document.getElementById('timer-count').textContent = secs;
+    document.getElementById('timer-text').style.display = 'inline';
+    document.getElementById('resend-link').style.pointerEvents = 'none';
+    document.getElementById('resend-link').style.opacity = '0.4';
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      secs--;
+      document.getElementById('timer-count').textContent = secs;
+      if (secs <= 0) {
+        clearInterval(timerInterval);
+        document.getElementById('timer-text').style.display = 'none';
+        document.getElementById('resend-link').style.pointerEvents = 'auto';
+        document.getElementById('resend-link').style.opacity = '1';
+      }
+    }, 1000);
+  }
+
+  function resendOTP(e) {
+    e.preventDefault();
+    resetOTPSheet();
+    startTimer();
+    setTimeout(() => document.getElementById('otp1').focus(), 100);
+  }
+
+  // ── VERIFY ──
+  function verifyOTP() {
+    if (!document.getElementById('verify-btn').classList.contains('enabled')) return;
+    clearInterval(timerInterval);
+    document.getElementById('otp-state-input').style.display = 'none';
+    document.getElementById('otp-state-success').classList.add('show');
+  }
+
+  function goToApplicant() {
+    window.location.href = 'gold-loan-applicant.html';
+  }
+
+
+
+
+  window.addEventListener('pageshow', function(e) {
+    if (e.persisted) window.location.reload();
+  });
+
+  function toggleLang() {
+    document.getElementById('lang-dropdown').classList.toggle('open');
+  }
+  function setLang(code) {
+    document.getElementById('lang-label').textContent = code;
+    document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('selected'));
+    event.target.classList.add('selected');
+    document.getElementById('lang-dropdown').classList.remove('open');
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.lang-wrap')) {
+      const dd = document.getElementById('lang-dropdown');
+      if (dd) dd.classList.remove('open');
+    }
+  });
+  function openHelp() {
+    document.getElementById('help-overlay').classList.add('open');
+    document.getElementById('help-sheet').classList.add('open');
+  }
+  function closeHelp() {
+    document.getElementById('help-overlay').classList.remove('open');
+    document.getElementById('help-sheet').classList.remove('open');
+  }
+</script>
+<!-- HELP SHEET -->
+<div class="sheet-overlay" id="help-overlay" onclick="closeHelp()"></div>
+<div class="otp-sheet" id="help-sheet">
+  <div class="sheet-handle"></div>
+  <div style="padding:0 24px 24px;">
+    <div style="font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px;">Need Help?</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;">Support team available Mon–Sat, 9 AM – 6 PM</div>
+    <a href="tel:18001234567" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#EFF6FF;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 11.5 19.79 19.79 0 011.29 2.94 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.37a16 16 0 006.29 6.29l1.54-1.54a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink);">Call Us</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">1800-123-4567 · Toll Free</div>
+      </div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="https://wa.me/911800123456" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#DCFCE7;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="#16A34A" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.121 1.532 5.855L0 24l6.335-1.51A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.372l-.36-.214-3.732.888.924-3.638-.235-.374A9.818 9.818 0 1112 21.818z"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink);">WhatsApp</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Chat with us instantly</div>
+      </div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="/cdn-cgi/l/email-protection#22515752524d50566251414d50474f470c4b4c" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#FDF8EE;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C8972B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink);">Email Us</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;"><span class="__cf_email__" data-cfemail="592a2c2929362b2d192a3a362b3c343c773037">[email&#160;protected]</span></div>
+      </div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="#faq" style="display:flex;align-items:center;gap:14px;padding:14px 0;text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#EDE9FE;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink);">FAQs</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Browse common questions</div>
+      </div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-lin

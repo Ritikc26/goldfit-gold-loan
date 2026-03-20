@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Loan Details – Goldfit Gold Loan</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #C8972B; --gold-light: #F5E6C0; --gold-pale: #FDF8EE; --gold-dark: #8B6418;
+  --navy: #1A2B5F; --navy-mid: #243575; --ink: #1C1C1E; --muted: #6B7280;
+  --light-gray: #F4F4F5; --border: #E5E7EB; --white: #FFFFFF;
+  --success: #16A34A; --success-bg: #DCFCE7;
+  --error: #DC2626;
+  --radius-sm: 10px; --radius-md: 14px; --radius-pill: 100px;
+}
+html, body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--light-gray); color: var(--ink);
+  max-width: 430px; margin: 0 auto;
+  min-height: 100vh; overflow-x: hidden;
+}
+
+/* TOPBAR */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px; background: var(--white);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-left { display: flex; align-items: center; gap: 12px; }
+.back-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--light-gray); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; -webkit-tap-highlight-color: transparent; flex-shrink: 0; }
+.back-btn svg { width: 18px; height: 18px; }
+.topbar-title { font-size: 15px; font-weight: 600; color: var(--ink); }
+.help-btn {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 600; color: var(--navy);
+  background: var(--light-gray); border: 1px solid var(--border);
+  border-radius: var(--radius-pill); padding: 6px 10px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.help-btn svg { width: 16px; height: 16px; }
+
+/* STEP PROGRESS */
+.step-progress { padding: 16px 20px 0; background: var(--white); }
+.step-track { display: flex; align-items: center; overflow-x: auto; scrollbar-width: none; padding-bottom: 12px; }
+.step-track::-webkit-scrollbar { display: none; }
+.step-item { display: flex; align-items: center; flex-shrink: 0; }
+.step-dot { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; }
+.step-dot.active { background: var(--navy); color: var(--white); }
+.step-dot.done { background: var(--success-bg); color: var(--success); }
+.step-dot.inactive { background: var(--light-gray); color: var(--muted); }
+.step-label { font-size: 11px; font-weight: 500; margin-left: 5px; white-space: nowrap; }
+.step-label.active { color: var(--navy); }
+.step-label.done { color: var(--success); }
+.step-label.inactive { color: var(--muted); }
+.step-line { width: 20px; height: 1px; background: var(--border); margin: 0 6px; flex-shrink: 0; }
+.step-line.done { background: var(--success); }
+.progress-bar-wrap { height: 3px; background: var(--light-gray); margin: 0 20px; border-radius: 4px; overflow: hidden; }
+.progress-bar-fill { height: 100%; width: 85.68%; background: var(--navy); border-radius: 4px; }
+
+/* BODY */
+.body { padding: 24px 20px 140px; }
+.screen-title { font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: -0.4px; margin-bottom: 6px; }
+.screen-subtitle { font-size: 13.5px; color: var(--muted); line-height: 1.55; margin-bottom: 20px; }
+
+/* SECTION CARD */
+.section-card { background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--border); padding: 20px; margin-bottom: 16px; }
+.section-heading { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+
+/* FIELDS */
+.field { margin-bottom: 20px; }
+.field:last-child { margin-bottom: 0; }
+.field-label { font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 8px; }
+.field-input {
+  width: 100%; padding: 13px 16px;
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
+  color: var(--ink); background: var(--white);
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  outline: none; transition: border-color 0.2s; -webkit-appearance: none;
+  margin-bottom: 10px;
+}
+.field-input:focus { border-color: var(--navy); }
+.field-input::placeholder { color: #C0C7D0; font-weight: 400; }
+.field-select {
+  width: 100%; padding: 13px 40px 13px 16px;
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
+  color: var(--ink); background: var(--white);
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  outline: none; -webkit-appearance: none; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center;
+  cursor: pointer; transition: border-color 0.2s;
+}
+.field-select:focus { border-color: var(--navy); }
+.field-words { font-size: 11.5px; color: var(--navy); font-weight: 500; margin-bottom: 10px; min-height: 16px; }
+.field-error { font-size: 12px; color: var(--error); margin-top: -6px; margin-bottom: 8px; display: none; }
+
+/* RANGE SLIDER */
+input[type="range"] {
+  -webkit-appearance: none; width: 100%; height: 5px;
+  border-radius: 5px; outline: none; margin-bottom: 6px; cursor: pointer;
+  background: linear-gradient(to right, var(--navy) var(--fill, 0%), var(--light-gray) var(--fill, 0%));
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--navy); border: 3px solid var(--white);
+  box-shadow: 0 2px 6px rgba(26,43,95,0.25); cursor: pointer;
+}
+.slider-minmax { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
+
+/* LOAN SUMMARY */
+.summary-card { background: var(--gold-pale); border: 1px solid var(--gold-light); border-radius: var(--radius-md); padding: 20px; margin-bottom: 16px; }
+.summary-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--gold-light); }
+.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.summary-metric { background: var(--white); border-radius: var(--radius-sm); padding: 12px 14px; border: 1px solid var(--gold-light); }
+.metric-lbl { font-size: 10.5px; color: var(--muted); margin-bottom: 4px; }
+.metric-val { font-size: 16px; font-weight: 700; color: var(--ink); }
+.metric-val.gold { color: var(--gold-dark); }
+.summary-divider { height: 1px; background: var(--gold-light); margin: 14px 0; }
+.summary-row { display: flex; justify-content: space-between; padding: 5px 0; }
+.summary-row .lbl { font-size: 12px; color: var(--muted); }
+.summary-row .val { font-size: 12px; font-weight: 600; color: var(--ink); }
+.summary-total { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid var(--gold-light); margin-top: 8px; }
+.summary-total .lbl { font-size: 13px; font-weight: 600; color: var(--ink); }
+.summary-total .val { font-size: 18px; font-weight: 700; color: var(--navy); }
+
+/* CTA */
+.cta-fixed { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: var(--white); padding: 14px 20px 30px; border-top: 1px solid var(--border); z-index: 40; }
+.btn-primary { width: 100%; background: var(--navy); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600; border: none; border-radius: var(--radius-pill); padding: 17px 20px; cursor: pointer; transition: background 0.2s, transform 0.1s, opacity 0.2s; -webkit-tap-highlight-color: transparent; opacity: 0.4; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.btn-primary.enabled { opacity: 1; }
+.btn-primary.enabled:active { transform: scale(0.98); background: var(--navy-mid); }
+.cta-secure { font-size: 11.5px; color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 5px; margin-top: 10px; }
+.cta-secure svg { width: 13px; height: 13px; }
+
+/* ── LANGUAGE SELECTOR ── */
+.lang-wrap { position: relative; }
+.lang-btn {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 600; color: var(--navy);
+  background: var(--light-gray); border: 1px solid var(--border);
+  border-radius: var(--radius-pill); padding: 6px 10px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.lang-dropdown {
+  display: none; position: absolute; top: calc(100% + 6px); right: 0;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); min-width: 130px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1); z-index: 200; overflow: hidden;
+}
+.lang-dropdown.open { display: block; }
+.lang-option {
+  padding: 11px 16px; font-size: 13px; color: var(--ink);
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+}
+.lang-option:hover, .lang-option.selected { background: var(--light-gray); font-weight: 600; color: var(--navy); }
+/* ── HELP SHEET ── */
+.help-option {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+  text-decoration: none; -webkit-tap-highlight-color: transparent;
+}
+.help-option:last-child { border-bottom: none; }
+.help-option-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.help-option-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.help-option-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* ── LANGUAGE SELECTOR ── */
+.lang-wrap { position: relative; }
+.lang-btn { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--navy); background: var(--light-gray); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 6px 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.lang-dropdown { display: none; position: absolute; top: calc(100% + 6px); right: 0; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-sm); min-width: 130px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); z-index: 200; overflow: hidden; }
+.lang-dropdown.open { display: block; }
+.lang-option { padding: 11px 16px; font-size: 13px; color: var(--ink); cursor: pointer; transition: background 0.15s; }
+.lang-option:hover, .lang-option.selected { background: var(--light-gray); font-weight: 600; color: var(--navy); }
+/* ── CONFIRM OVERLAY ── */
+.sheet-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.sheet-overlay.open { opacity: 1; pointer-events: all; }
+.confirm-sheet { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%); width: 100%; max-width: 430px; background: var(--white); border-radius: 24px 24px 0 0; padding: 0 0 40px; z-index: 101; transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); }
+.confirm-sheet.open { transform: translateX(-50%) translateY(0); }
+.sheet-handle { width: 36px; height: 4px; background: var(--border); border-radius: 4px; margin: 12px auto 20px; }
+.sheet-body { padding: 0 24px; }
+.confirm-title { font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.confirm-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+.confirm-warning { display: flex; align-items: flex-start; gap: 10px; background: #FEF3C7; border: 1px solid #FDE68A; border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 20px; }
+.confirm-warning svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; }
+.confirm-warning-text { font-size: 12.5px; color: #92400E; line-height: 1.4; font-weight: 500; }
+.confirm-rows { background: var(--light-gray); border-radius: var(--radius-sm); padding: 4px 16px; margin-bottom: 20px; }
+.confirm-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.confirm-row:last-child { border-bottom: none; }
+.confirm-key { font-size: 13px; color: var(--muted); }
+.confirm-val { font-size: 13px; font-weight: 600; color: var(--ink); }
+.confirm-btns { display: flex; gap: 10px; }
+.btn-confirm { flex: 1; background: var(--navy); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; border: none; border-radius: var(--radius-pill); padding: 16px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.btn-confirm:active { background: var(--navy-mid); }
+.btn-edit { flex: 1; background: var(--white); color: var(--navy); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; border: 1.5px solid var(--navy); border-radius: var(--radius-pill); padding: 16px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+/* ── HELP ── */
+.help-option { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); text-decoration: none; -webkit-tap-highlight-color: transparent; }
+.help-option:last-child { border-bottom: none; }
+.help-option-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.help-option-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.help-option-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.otp-sheet {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%);
+  width: 100%; max-width: 430px;
+  background: var(--white); border-radius: 24px 24px 0 0;
+  padding: 0 0 40px; z-index: 201;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.otp-sheet.open { transform: translateX(-50%) translateY(0); }
+.sheet-handle { width: 36px; height: 4px; background: var(--border); border-radius: 4px; margin: 12px auto 20px; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="back-btn" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    </button>
+    <span class="topbar-title">Loan Details</span>
+  </div>
+<div class="lang-wrap">
+      <button class="lang-btn" onclick="toggleLang()" id="lang-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        <span id="lang-label">EN</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="10" height="10"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="lang-dropdown" id="lang-dropdown">
+        <div class="lang-option selected" onclick="setLang('EN','English')">English</div>
+        <div class="lang-option" onclick="setLang('HI','हिंदी')">हिंदी</div>
+        <div class="lang-option" onclick="setLang('TA','தமிழ்')">தமிழ்</div>
+        <div class="lang-option" onclick="setLang('TE','తెలుగు')">తెలుగు</div>
+        <div class="lang-option" onclick="setLang('BN','বাংলা')">বাংলা</div>
+        <div class="lang-option" onclick="setLang('MR','मराठी')">मराठी</div>
+      </div>
+    </div>
+  <button class="help-btn" onclick="openHelp()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 11.5 19.79 19.79 0 011.29 2.94 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.37a16 16 0 006.29 6.29l1.54-1.54a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+    Help
+  </button>
+</div>
+
+<!-- STEP PROGRESS -->
+<div class="step-progress">
+  <div class="step-track">
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label done">Verification</span></div>
+    <div class="step-line done"></div>
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label done">eKYC</span></div>
+    <div class="step-line done"></div>
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label done">Applicant</span></div>
+    <div class="step-line done"></div>
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label done">Employment</span></div>
+    <div class="step-line done"></div>
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label done">Nominee</span></div>
+    <div class="step-line done"></div>
+    <div class="step-item"><div class="step-dot active">6</div><span class="step-label active">Loan Details</span></div>
+    <div class="step-line"></div>
+    <div class="step-item"><div class="step-dot inactive">7</div><span class="step-label inactive">Summary</span></div>
+  </div>
+</div>
+<div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+
+<!-- BODY -->
+<div class="body">
+  <h1 class="screen-title">Loan Details</h1>
+  <p class="screen-subtitle">Tell us about the loan amount and tenure you need.</p>
+
+  <!-- LOAN REQUEST -->
+  <div class="section-card">
+    <div class="section-heading">Your Loan Request</div>
+
+    <!-- Purpose -->
+    <div class="field">
+      <div class="field-label">Purpose of Loan</div>
+      <select class="field-select" id="purpose" onchange="checkForm()">
+        <option value="">Select purpose</option>
+        <option>Business Expansion</option>
+        <option>Medical Emergency</option>
+        <option>Education</option>
+        <option>Wedding / Celebration</option>
+        <option>Home Renovation</option>
+        <option>Debt Consolidation</option>
+        <option>Agriculture</option>
+        <option>Travel</option>
+        <option>Other Personal Use</option>
+      </select>
+    </div>
+
+    <!-- Loan Amount -->
+    <div class="field">
+      <div class="field-label">Desired Loan Amount</div>
+      <input class="field-input" id="loan-input" type="tel" inputmode="numeric"
+        placeholder="Enter amount" value="5,00,000"
+        oninput="onLoanInput()" onblur="onLoanBlur()">
+      <div class="field-words" id="loan-words">Five Lakh Only</div>
+      <input type="range" id="loan-slider" min="20000" max="1000000" step="10000" value="500000"
+        oninput="onLoanSlider()">
+      <div class="slider-minmax"><span>₹20,000</span><span>₹10,00,000</span></div>
+    </div>
+
+    <!-- Tenure -->
+    <div class="field">
+      <div class="field-label">Loan Tenure (months)</div>
+      <input class="field-input" id="tenure-input" type="tel" inputmode="numeric"
+        placeholder="Enter months (3–24)" value="18"
+        oninput="onTenureInput()" onblur="onTenureBlur()">
+      <div class="field-error" id="tenure-error">Tenure must be between 3 and 24 months</div>
+      <input type="range" id="tenure-slider" min="3" max="24" step="1" value="18"
+        oninput="onTenureSlider()">
+      <div class="slider-minmax"><span>3 months</span><span>24 months</span></div>
+    </div>
+  </div>
+
+  <!-- LOAN SUMMARY -->
+  <div class="summary-card">
+    <div class="summary-title">Loan Summary</div>
+    <div class="summary-grid">
+      <div class="summary-metric">
+        <div class="metric-lbl">Est. Monthly EMI</div>
+        <div class="metric-val" id="sum-emi">₹0</div>
+      </div>
+      <div class="summary-metric">
+        <div class="metric-lbl">Loan Amount</div>
+        <div class="metric-val" id="sum-amount">₹0</div>
+      </div>
+      <div class="summary-metric">
+        <div class="metric-lbl">Gold Required</div>
+        <div class="metric-val gold" id="sum-gold">0 g</div>
+      </div>
+      <div class="summary-metric">
+        <div class="metric-lbl">Interest Rate</div>
+        <div class="metric-val">9.8% p.a.</div>
+      </div>
+    </div>
+    <div class="summary-divider"></div>
+    <div class="summary-row"><span class="lbl">Principal Amount</span><span class="val" id="sum-principal">₹0</span></div>
+    <div class="summary-row"><span class="lbl">Total Interest</span><span class="val" id="sum-interest">₹0</span></div>
+    <div class="summary-row"><span class="lbl">Loan Tenure</span><span class="val" id="sum-tenure">18 months</span></div>
+    <div class="summary-total">
+      <span class="lbl">Total Payable</span>
+      <span class="val" id="sum-total">₹0</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<div class="cta-fixed">
+  <button class="btn-primary" id="continue-btn" onclick="openConfirm()">
+    Save & Continue
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button>
+  <div class="cta-secure">
+    <svg viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Secure & Encrypted
+  </div>
+</div>
+
+<script>
+  const L_MIN = 20000, L_MAX = 1000000, L_STEP = 10000;
+  const T_MIN = 3, T_MAX = 24;
+  const RATE = 0.098 / 12, GOLD_RATE = 11326, LTV = 0.75;
+
+  function goBack() {
+    if (document.referrer) history.back();
+    else window.location.href = 'gold-loan-nominee.html';
+  }
+
+  function fmt(n) { return n.toLocaleString('en-IN'); }
+
+  function setFill(id, val, min, max) {
+    const s = document.getElementById(id);
+    s.style.setProperty('--fill', ((val - min) / (max - min) * 100).toFixed(2) + '%');
+  }
+
+  function words(num) {
+    if (!num) return '';
+    const o = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+    const t = ['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+    function w(n) {
+      if (n < 20) return o[n];
+      if (n < 100) return t[Math.floor(n/10)] + (n%10 ? ' '+o[n%10] : '');
+      if (n < 1000) return o[Math.floor(n/100)] + ' Hundred' + (n%100 ? ' '+w(n%100) : '');
+      if (n < 100000) return w(Math.floor(n/1000)) + ' Thousand' + (n%1000 ? ' '+w(n%1000) : '');
+      if (n < 10000000) return w(Math.floor(n/100000)) + ' Lakh' + (n%100000 ? ' '+w(n%100000) : '');
+      return w(Math.floor(n/10000000)) + ' Crore' + (n%10000000 ? ' '+w(n%10000000) : '');
+    }
+    return w(num) + ' Only';
+  }
+
+  /* ── LOAN AMOUNT ── */
+  function onLoanInput() {
+    const el = document.getElementById('loan-input');
+    const raw = el.value.replace(/\D/g, '');
+    el.value = raw ? parseInt(raw).toLocaleString('en-IN') : '';
+    const n = parseInt(raw) || 0;
+    document.getElementById('loan-words').textContent = raw ? words(n) : '';
+    const clamped = Math.min(Math.max(n, L_MIN), L_MAX);
+    document.getElementById('loan-slider').value = clamped;
+    setFill('loan-slider', clamped, L_MIN, L_MAX);
+    updateSummary();
+  }
+
+  function onLoanBlur() {
+    const el = document.getElementById('loan-input');
+    const raw = parseInt(el.value.replace(/\D/g, '')) || L_MIN;
+    const snapped = Math.round(Math.min(Math.max(raw, L_MIN), L_MAX) / L_STEP) * L_STEP;
+    el.value = fmt(snapped);
+    document.getElementById('loan-words').textContent = words(snapped);
+    document.getElementById('loan-slider').value = snapped;
+    setFill('loan-slider', snapped, L_MIN, L_MAX);
+    updateSummary();
+  }
+
+  function onLoanSlider() {
+    const val = parseInt(document.getElementById('loan-slider').value);
+    setFill('loan-slider', val, L_MIN, L_MAX);
+    document.getElementById('loan-input').value = fmt(val);
+    document.getElementById('loan-words').textContent = words(val);
+    updateSummary();
+  }
+
+  /* ── TENURE ── */
+  function onTenureInput() {
+    const el = document.getElementById('tenure-input');
+    el.value = el.value.replace(/\D/g, '');
+    const n = parseInt(el.value) || T_MIN;
+    const clamped = Math.min(Math.max(n, T_MIN), T_MAX);
+    document.getElementById('tenure-slider').value = clamped;
+    setFill('tenure-slider', clamped, T_MIN, T_MAX);
+    document.getElementById('tenure-error').style.display = 'none';
+    updateSummary();
+  }
+
+  function onTenureBlur() {
+    const el = document.getElementById('tenure-input');
+    const n = parseInt(el.value) || T_MIN;
+    const clamped = Math.min(Math.max(n, T_MIN), T_MAX);
+    el.value = clamped;
+    if (n < T_MIN || n > T_MAX) {
+      document.getElementById('tenure-error').style.display = 'block';
+    } else {
+      document.getElementById('tenure-error').style.display = 'none';
+    }
+    document.getElementById('tenure-slider').value = clamped;
+    setFill('tenure-slider', clamped, T_MIN, T_MAX);
+    updateSummary();
+  }
+
+  function onTenureSlider() {
+    const val = parseInt(document.getElementById('tenure-slider').value);
+    setFill('tenure-slider', val, T_MIN, T_MAX);
+    document.getElementById('tenure-input').value = val;
+    document.getElementById('tenure-error').style.display = 'none';
+    updateSummary();
+  }
+
+  /* ── SUMMARY ── */
+  function updateSummary() {
+    const a = parseInt(document.getElementById('loan-slider').value) || L_MIN;
+    const m = parseInt(document.getElementById('tenure-slider').value) || 18;
+    const g = (a / (GOLD_RATE * LTV)).toFixed(1);
+    const emi = Math.round(a * RATE * Math.pow(1+RATE, m) / (Math.pow(1+RATE, m) - 1));
+    const ti = Math.round(emi * m - a);
+    const total = a + ti;
+    const yr = Math.floor(m/12), mo = m%12;
+    const ts = yr > 0 ? `${yr}yr${yr>1?'s':''} ${mo>0?mo+'mo':''}`.trim() : `${m} months`;
+
+    document.getElementById('sum-emi').textContent      = '₹' + fmt(emi);
+    document.getElementById('sum-amount').textContent   = '₹' + fmt(a);
+    document.getElementById('sum-gold').textContent     = g + ' g';
+    document.getElementById('sum-principal').textContent = '₹' + fmt(a);
+    document.getElementById('sum-interest').textContent  = '₹' + fmt(ti);
+    document.getElementById('sum-tenure').textContent    = ts;
+    document.getElementById('sum-total').textContent     = '₹' + fmt(total);
+  }
+
+  /* ── FORM CHECK ── */
+  function checkForm() {
+    const ok = document.getElementById('purpose').value !== '';
+    document.getElementById('continue-btn').classList.toggle('enabled', ok);
+  }
+
+  function goNext() {
+    if (!document.getElementById('continue-btn').classList.contains('enabled')) return;
+    window.location.href = 'gold-loan-appointment.html';
+  }
+
+  /* INIT */
+  onLoanSlider();
+  onTenureSlider();
+
+
+
+  // ── CONFIRM SHEET ──
+  function openConfirm() {
+    if (!document.getElementById('continue-btn').classList.contains('enabled')) return;
+    // Populate confirm values from current state
+    const a = parseInt(document.getElementById('loan-slider').value) || 20000;
+    const m = parseInt(document.getElementById('tenure-slider').value) || 18;
+    const RATE = 0.098/12;
+    const emi = Math.round(a * RATE * Math.pow(1+RATE,m) / (Math.pow(1+RATE,m)-1));
+    const ti = Math.round(emi*m - a);
+    const gold = (a/(11326*0.75)).toFixed(1);
+    document.getElementById('cf-purpose').textContent = document.getElementById('purpose').value || '—';
+    document.getElementById('cf-amount').textContent = '₹' + a.toLocaleString('en-IN');
+    document.getElementById('cf-tenure').textContent = m + ' months';
+    document.getElementById('cf-emi').textContent = '₹' + emi.toLocaleString('en-IN');
+    document.getElementById('cf-total').textContent = '₹' + (a+ti).toLocaleString('en-IN');
+    document.getElementById('cf-gold').textContent = gold + ' g';
+    document.getElementById('confirm-overlay').classList.add('open');
+    document.getElementById('confirm-sheet').classList.add('open');
+  }
+  function closeConfirm() {
+    document.getElementById('confirm-overlay').classList.remove('open');
+    document.getElementById('confirm-sheet').classList.remove('open');
+  }
+  function confirmAndProceed() {
+    window.location.href = 'gold-loan-appointment.html';
+  }
+
+
+  window.addEventListener('pageshow', function(e) {
+    if (e.persisted) window.location.reload();
+  });
+
+  function toggleLang() {
+    document.getElementById('lang-dropdown').classList.toggle('open');
+  }
+  function setLang(code) {
+    document.getElementById('lang-label').textContent = code;
+    document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('selected'));
+    event.target.classList.add('selected');
+    document.getElementById('lang-dropdown').classList.remove('open');
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.lang-wrap')) {
+      const dd = document.getElementById('lang-dropdown');
+      if (dd) dd.classList.remove('open');
+    }
+  });
+  function openHelp() {
+    document.getElementById('help-overlay').classList.add('open');
+    document.getElementById('help-sheet').classList.add('open');
+  }
+  function closeHelp() {
+    document.getElementById('help-overlay').classList.remove('open');
+    document.getElementById('help-sheet').classList.remove('open');
+  }
+</script>
+<!-- CONFIRM SHEET -->
+<div class="sheet-overlay" id="confirm-overlay" onclick="closeConfirm()"></div>
+<div class="confirm-sheet" id="confirm-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-body">
+    <div class="confirm-title">Confirm Loan Details</div>
+    <div class="confirm-sub">Please review carefully. You cannot change these details after submission.</div>
+    <div class="confirm-warning">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div class="confirm-warning-text">Once confirmed, these details are locked and cannot be edited.</div>
+    </div>
+    <div class="confirm-rows">
+      <div class="confirm-row"><span class="confirm-key">Purpose of Loan</span><span class="confirm-val" id="cf-purpose">—</span></div>
+      <div class="confirm-row"><span class="confirm-key">Loan Amount</span><span class="confirm-val" id="cf-amount">—</span></div>
+      <div class="confirm-row"><span class="confirm-key">Loan Tenure</span><span class="confirm-val" id="cf-tenure">—</span></div>
+      <div class="confirm-row"><span class="confirm-key">Est. Monthly EMI</span><span class="confirm-val" id="cf-emi">—</span></div>
+      <div class="confirm-row"><span class="confirm-key">Total Payable</span><span class="confirm-val" id="cf-total">—</span></div>
+      <div class="confirm-row"><span class="confirm-key">Gold Required</span><span class="confirm-val" id="cf-gold">—</span></div>
+    </div>
+    <div class="confirm-btns">
+      <button class="btn-edit" onclick="closeConfirm()">← Edit</button>
+      <button class="btn-confirm" onclick="confirmAndProceed()">Confirm & Continue</button>
+    </div>
+  </div>
+</div><div class="help-option-sub">1800-123-4567 (Toll Free)</div></div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" width="16" height="16" style="margin-left:auto"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a class="help-option" href="https://wa.me/911800123456">
+      <div class="help-option-icon" style="background:#DCFCE7;"><svg viewBox="0 0 24 24" fill="#16A34A" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.121 1.532 5.855L0 24l6.335-1.51A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.372l-.36-.214-3.732.888.924-3.638-.235-.374A9.818 9.818 0 1112 21.818z"/></svg></div>
+      <div><div class="help-option-title">WhatsApp</div><div class="help-option-sub">Chat with us instantly</div></div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" width="16" height="16" style="margin-left:auto"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a class="help-option" href="/cdn-cgi/l/email-protection#7d0e080d0d120f093d0e1e120f181018531413">
+      <div class="help-option-icon" style="background:#FDF8EE;"><svg viewBox="0 0 24 24" fill="none" stroke="#C8972B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+      <div><div class="help-option-title">Email Us</div><div class="help-option-sub"><span class="__cf_email__" data-cfemail="6d1e181d1d021f192d1e0e021f080008430403">[email&#160;protected]</span></div></div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" width="16" height="16" style="margin-left:auto"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- HELP SHEET -->
+<div class="sheet-overlay" id="help-overlay" onclick="closeHelp()"></div>
+<div class="otp-sheet" id="help-sheet">
+  <div class="sheet-handle"></div>
+  <div style="padding:0 24px 24px;">
+    <div style="font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px;">Need Help?</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;">Support team available Mon–Sat, 9 AM – 6 PM</div>
+    <a href="tel:18001234567" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#EFF6FF;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 11.5 19.79 19.79 0 011.29 2.94 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.37a16 16 0 006.29 6.29l1.54-1.54a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink);">Call Us</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">1800-123-4567 · Toll Free</div>
+      </div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="https://wa.me/911800123456" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#DCFCE7;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="#16A34A" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.121 1.532 5.855L0 24l6.335-1.51A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.372l-.36-.214-3.732.888.924-3.638-.235-.374A9.818 9.818 0 1112 21.818z"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink);">WhatsApp</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Chat with us instantly</div>
+      </div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="/cdn-cgi/l/email-protection#42313732322d30360231212d30272f276c2b2c" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#FDF8EE;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C8972B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink);">Email Us</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;"><span class="__cf_email__" data-cfemail="23505653534c51576350404c51464e460d4a4d">[email&#160;protected]</span></div>
+      </div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="#faq" style="display:flex;align-items:center;gap:14px;padding:14px 0;text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#EDE9FE;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink);">FAQs</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Browse common questions</div>
+      </div>

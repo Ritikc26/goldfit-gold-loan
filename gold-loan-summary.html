@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Application Submitted – Goldfit Gold Loan</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #C8972B; --gold-light: #F5E6C0; --gold-pale: #FDF8EE; --gold-dark: #8B6418;
+  --navy: #1A2B5F; --navy-mid: #243575; --ink: #1C1C1E; --muted: #6B7280;
+  --light-gray: #F4F4F5; --border: #E5E7EB; --white: #FFFFFF;
+  --success: #16A34A; --success-bg: #DCFCE7;
+  --radius-sm: 10px; --radius-md: 14px; --radius-pill: 100px;
+}
+html, body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--light-gray); color: var(--ink);
+  max-width: 430px; margin: 0 auto;
+  min-height: 100vh; overflow-x: hidden;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px; background: var(--white);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { display: flex; align-items: center; gap: 7px; }
+.nav-logo-icon { width: 30px; height: 30px; background: var(--navy); border-radius: 7px; display: flex; align-items: center; justify-content: center; }
+.nav-logo-icon svg { width: 16px; height: 16px; }
+.nav-logo-text { font-size: 16px; font-weight: 600; color: var(--navy); }
+.nav-logo-text span { color: var(--gold); }
+
+/* ── STEP PROGRESS ── */
+.step-progress { padding: 16px 20px 0; background: var(--white); }
+.step-track { display: flex; align-items: center; overflow-x: auto; scrollbar-width: none; padding-bottom: 12px; }
+.step-track::-webkit-scrollbar { display: none; }
+.step-item { display: flex; align-items: center; flex-shrink: 0; }
+.step-dot { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; }
+.step-dot.done { background: var(--success-bg); color: var(--success); }
+.step-label { font-size: 11px; font-weight: 500; margin-left: 5px; white-space: nowrap; color: var(--success); }
+.step-line { width: 20px; height: 1px; background: var(--success); margin: 0 6px; flex-shrink: 0; }
+.progress-bar-wrap { height: 3px; background: var(--success-bg); margin: 0 20px; border-radius: 4px; overflow: hidden; }
+.progress-bar-fill { height: 100%; width: 100%; background: var(--success); border-radius: 4px; }
+
+/* ── BODY ── */
+.body { padding: 32px 20px 40px; }
+
+/* ── SUCCESS ILLUSTRATION ── */
+.success-illus {
+  display: flex; justify-content: center; margin-bottom: 24px;
+}
+
+/* ── SUCCESS TEXT ── */
+.success-title {
+  font-size: 22px; font-weight: 700; color: var(--navy);
+  text-align: center; letter-spacing: -0.3px; margin-bottom: 10px;
+  line-height: 1.25;
+}
+.success-subtitle {
+  font-size: 13.5px; color: var(--muted); text-align: center;
+  line-height: 1.6; margin-bottom: 24px; max-width: 300px; margin-left: auto; margin-right: auto;
+}
+
+/* ── REFERENCE NUMBER ── */
+.ref-wrap {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 16px 20px;
+  text-align: center; margin-bottom: 28px;
+}
+.ref-label { font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 10px; }
+.ref-number-row { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.ref-number { font-size: 20px; font-weight: 700; color: var(--navy); letter-spacing: 1.5px; }
+.copy-btn {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--light-gray); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s;
+}
+.copy-btn:active { background: var(--border); }
+.copy-btn svg { width: 15px; height: 15px; }
+.copy-toast { font-size: 11.5px; color: var(--success); margin-top: 8px; display: none; font-weight: 500; }
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: var(--border); margin: 0 0 24px; }
+
+/* ── DETAIL CARDS ── */
+.detail-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px 20px; margin-bottom: 14px; }
+.detail-heading { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.detail-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--light-gray); }
+.detail-row:last-child { border-bottom: none; padding-bottom: 0; }
+.detail-key { font-size: 12.5px; color: var(--muted); }
+.detail-val { font-size: 12.5px; font-weight: 600; color: var(--ink); text-align: right; }
+
+/* ── WHAT HAPPENS NEXT ── */
+.next-card { background: var(--gold-pale); border: 1px solid var(--gold-light); border-radius: var(--radius-md); padding: 18px 20px; margin-bottom: 24px; }
+.next-heading { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 14px; }
+.next-step { display: flex; align-items: flex-start; gap: 12px; padding: 8px 0; }
+.next-step + .next-step { border-top: 1px solid var(--gold-light); }
+.next-num { width: 22px; height: 22px; border-radius: 50%; background: var(--navy); color: var(--white); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.next-text { font-size: 12.5px; color: var(--ink); line-height: 1.5; }
+.next-text strong { font-weight: 600; }
+
+/* ── BUTTONS ── */
+.btn-row { display: flex; gap: 10px; margin-bottom: 16px; }
+.btn-primary {
+  flex: 1; background: var(--navy); color: var(--white);
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+  border: none; border-radius: var(--radius-pill); padding: 16px 20px;
+  cursor: pointer; transition: background 0.2s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-primary:active { transform: scale(0.98); background: var(--navy-mid); }
+.btn-secondary {
+  flex: 1; background: var(--white); color: var(--navy);
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+  border: 1.5px solid var(--navy); border-radius: var(--radius-pill); padding: 16px 20px;
+  cursor: pointer; transition: background 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-secondary:active { background: var(--light-gray); }
+.help-text { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.5; }
+.help-text a { color: var(--navy); font-weight: 500; text-decoration: none; }
+
+/* ── ANIMATION ── */
+@keyframes popIn { 0% { transform: scale(0.6); opacity: 0; } 70% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.pop-in { animation: popIn 0.5s ease both; }
+.slide-up-1 { animation: slideUp 0.4s ease 0.2s both; }
+.slide-up-2 { animation: slideUp 0.4s ease 0.35s both; }
+.slide-up-3 { animation: slideUp 0.4s ease 0.5s both; }
+.slide-up-4 { animation: slideUp 0.4s ease 0.65s both; }
+.slide-up-5 { animation: slideUp 0.4s ease 0.8s both; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L4 7v5c0 5.25 3.4 10.15 8 11.35C16.6 22.15 20 17.25 20 12V7L12 2z" fill="#F5C55E"/></svg>
+    </div>
+    <span class="nav-logo-text">Gold<span>fit</span></span>
+  </div>
+</div>
+
+<!-- STEP PROGRESS — all done -->
+<div class="step-progress">
+  <div class="step-track">
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label">Verification</span></div>
+    <div class="step-line"></div>
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label">eKYC</span></div>
+    <div class="step-line"></div>
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label">Applicant</span></div>
+    <div class="step-line"></div>
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label">Employment</span></div>
+    <div class="step-line"></div>
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label">Nominee</span></div>
+    <div class="step-line"></div>
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label">Loan</span></div>
+    <div class="step-line"></div>
+    <div class="step-item"><div class="step-dot done">✓</div><span class="step-label">Summary</span></div>
+  </div>
+</div>
+<div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- ILLUSTRATION -->
+  <div class="success-illus pop-in">
+    <svg width="160" height="130" viewBox="0 0 160 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Confetti -->
+      <circle cx="28" cy="24" r="4" fill="#F59E0B" opacity="0.8"/>
+      <rect x="130" y="18" width="7" height="7" rx="2" fill="#3B82F6" opacity="0.7" transform="rotate(20 130 18)"/>
+      <circle cx="140" cy="50" r="3" fill="#EC4899" opacity="0.7"/>
+      <rect x="15" y="55" width="6" height="6" rx="1.5" fill="#10B981" opacity="0.7" transform="rotate(-15 15 55)"/>
+      <circle cx="145" cy="28" r="5" fill="#8B5CF6" opacity="0.6"/>
+      <rect x="40" y="12" width="5" height="5" rx="1" fill="#EF4444" opacity="0.7" transform="rotate(30 40 12)"/>
+      <!-- Balloons -->
+      <ellipse cx="52" cy="60" rx="14" ry="16" fill="#FCA5A5"/>
+      <line x1="52" y1="76" x2="54" y2="90" stroke="#FCA5A5" stroke-width="1.5"/>
+      <ellipse cx="108" cy="52" rx="13" ry="15" fill="#93C5FD"/>
+      <line x1="108" y1="67" x2="106" y2="82" stroke="#93C5FD" stroke-width="1.5"/>
+      <ellipse cx="138" cy="68" rx="11" ry="13" fill="#FCD34D"/>
+      <line x1="138" y1="81" x2="137" y2="94" stroke="#FCD34D" stroke-width="1.5"/>
+      <!-- Document -->
+      <rect x="52" y="52" width="70" height="62" rx="8" fill="#EFF6FF"/>
+      <rect x="52" y="52" width="70" height="62" rx="8" fill="none" stroke="#BFDBFE" stroke-width="1.5"/>
+      <rect x="62" y="65" width="30" height="4" rx="2" fill="#BFDBFE"/>
+      <rect x="62" y="75" width="44" height="3" rx="1.5" fill="#DBEAFE"/>
+      <rect x="62" y="83" width="36" height="3" rx="1.5" fill="#DBEAFE"/>
+      <!-- Green check circle -->
+      <circle cx="104" cy="98" r="14" fill="#16A34A"/>
+      <polyline points="97,98 101,103 112,92" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- SUCCESS TEXT -->
+  <h1 class="success-title slide-up-1">Application Submitted<br>for Review</h1>
+  <p class="success-subtitle slide-up-1">Thank you! Your application is now with our team. You will be notified via SMS and Email when your sanction letter is ready.</p>
+
+  <!-- REFERENCE NUMBER -->
+  <div class="ref-wrap slide-up-2">
+    <div class="ref-label">Your Application Reference Number</div>
+    <div class="ref-number-row">
+      <div class="ref-number" id="ref-num">GFGL000000021</div>
+      <button class="copy-btn" onclick="copyRef()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+        </svg>
+      </button>
+    </div>
+    <div class="copy-toast" id="copy-toast">✓ Copied to clipboard</div>
+  </div>
+
+  <div class="divider slide-up-2"></div>
+
+  <!-- LOAN REQUEST DETAILS -->
+  <div class="detail-card slide-up-3">
+    <div class="detail-heading">Your Loan Request</div>
+    <div class="detail-row">
+      <span class="detail-key">Desired Loan Amount</span>
+      <span class="detail-val">₹5,00,000</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-key">Loan Tenure</span>
+      <span class="detail-val">18 Months</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-key">Purpose of Loan</span>
+      <span class="detail-val">Business Expansion</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-key">Estimated Monthly EMI</span>
+      <span class="detail-val" style="color:var(--navy)">₹23,450</span>
+    </div>
+  </div>
+
+  <!-- APPOINTMENT DETAILS -->
+  <div class="detail-card slide-up-3">
+    <div class="detail-heading">Your Appointment Details</div>
+    <div class="detail-row">
+      <span class="detail-key">Date</span>
+      <span class="detail-val">22nd November 2024</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-key">Time</span>
+      <span class="detail-val">10:00 AM</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-key">Branch</span>
+      <span class="detail-val">Faridabad Main Branch</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-key">District</span>
+      <span class="detail-val">Faridabad</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-key">State</span>
+      <span class="detail-val">Haryana</span>
+    </div>
+  </div>
+
+  <!-- WHAT HAPPENS NEXT -->
+  <div class="next-card slide-up-4">
+    <div class="next-heading">What happens next?</div>
+    <div class="next-step">
+      <div class="next-num">1</div>
+      <div class="next-text"><strong>Visit the branch</strong> on your appointment date with your gold ornaments and original documents (PAN, Aadhaar).</div>
+    </div>
+    <div class="next-step">
+      <div class="next-num">2</div>
+      <div class="next-text"><strong>Gold evaluation</strong> will be done by our certified evaluator at the branch.</div>
+    </div>
+    <div class="next-step">
+      <div class="next-num">3</div>
+      <div class="next-text"><strong>Sanction letter</strong> will be sent to your registered email and mobile number.</div>
+    </div>
+    <div class="next-step">
+      <div class="next-num">4</div>
+      <div class="next-text"><strong>Loan disbursed</strong> directly to your bank account within 30 minutes of approval.</div>
+    </div>
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="btn-row slide-up-5">
+    <button class="btn-secondary" onclick="window.location.href='gold-loan-entry.html'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to Home
+    </button>
+    <button class="btn-primary" onclick="trackApplication()">
+      Track Status
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+
+  <div class="help-text slide-up-5">
+    Need help? <a href="#">Contact Support</a> &nbsp;·&nbsp; <a href="#">Download Application PDF</a>
+  </div>
+
+</div>
+
+<script>
+  function copyRef() {
+    const ref = document.getElementById('ref-num').textContent;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(ref).then(() => showToast());
+    } else {
+      const el = document.createElement('textarea');
+      el.value = ref;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      showToast();
+    }
+  }
+
+  function showToast() {
+    const toast = document.getElementById('copy-toast');
+    toast.style.display = 'block';
+    setTimeout(() => toast.style.display = 'none', 2500);
+  }
+
+  function trackApplication() {
+    alert('Application tracking coming soon!');
+  }
+</script>
+</body>
+</html>
