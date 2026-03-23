@@ -23,24 +23,13 @@
   }
 
   /* NAV */
-  .nav {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 20px; background: var(--white);
-    position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border);
-  }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--white); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
   .nav-logo { display: flex; align-items: center; gap: 7px; }
   .nav-logo-icon { width: 32px; height: 32px; background: var(--navy); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
   .nav-logo-icon svg { width: 18px; height: 18px; }
   .nav-logo-text { font-size: 17px; font-weight: 600; color: var(--navy); letter-spacing: -0.3px; }
   .nav-logo-text span { color: var(--gold); }
-  .nav-help {
-  display: flex; align-items: center; gap: 4px;
-  font-size: 12px; font-weight: 600; color: var(--navy);
-  background: var(--light-gray); border: 1px solid var(--border);
-  border-radius: var(--radius-pill); padding: 6px 10px;
-  cursor: pointer; -webkit-tap-highlight-color: transparent;
-  text-decoration: none;
-}
+  .nav-help { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--navy); background: var(--light-gray); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 6px 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; white-space: nowrap; text-decoration: none; }
   .nav-help svg { width: 14px; height: 14px; }
 
   /* HERO */
@@ -245,6 +234,7 @@
     50% { transform: translateY(-8px); }
   }
   .hero-illustration svg { animation: goldFloat 3.5s ease-in-out infinite; }
+.topbar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -256,10 +246,10 @@
     </div>
     <span class="nav-logo-text">Gold<span>fit</span></span>
   </div>
-<div style="display:flex;align-items:center;gap:8px;">
+  <div class="topbar-right">
     <div class="lang-wrap">
       <button class="lang-btn" onclick="toggleLang()" id="lang-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
         <span id="lang-label">EN</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="10" height="10"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
@@ -513,8 +503,8 @@
 
 <!-- ALWAYS-VISIBLE FIXED CTA -->
 <div class="cta-fixed">
-  <button class="btn-primary" onclick="window.location.href='gold-loan-verification.html'">Apply Now →</button>
-  <button class="btn-secondary" onclick="openResume()">Resume / Track Application</button>
+  <button class="btn-primary" onclick="window.location.href='gold-loan-verification.html'" data-i18n="apply.btn">Apply Now →</button>
+  <button class="btn-secondary" onclick="openResume()" data-i18n="resume.btn">Resume / Track Application</button>
   <div class="cta-disclaimer">
     By continuing you agree to our <a href="#">Terms</a> &amp; <a href="#">Privacy Policy</a>
   </div>
@@ -558,6 +548,24 @@
     window.location.href = 'gold-loan-applicant.html';
   }
 
+  function toggleLang() {
+    var dd = document.getElementById('lang-dropdown');
+    if (dd) dd.classList.toggle('open');
+  }
+  function setLang(code) {
+    var ll = document.getElementById('lang-label');
+    if (ll) ll.textContent = code;
+    document.querySelectorAll('.lang-option').forEach(function(o) { o.classList.remove('selected'); });
+    if (event && event.target) event.target.classList.add('selected');
+    var dd = document.getElementById('lang-dropdown');
+    if (dd) dd.classList.remove('open');
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.lang-wrap')) {
+      var dd = document.getElementById('lang-dropdown');
+      if (dd) dd.classList.remove('open');
+    }
+  });
 </script>
 <script>
   // Force fresh reload when navigating back to this page
@@ -591,23 +599,6 @@
   function continueApplication() {
     window.location.href = 'gold-loan-applicant.html';
   }
-
-
-  function toggleLang() {
-    document.getElementById('lang-dropdown').classList.toggle('open');
-  }
-  function setLang(code) {
-    document.getElementById('lang-label').textContent = code;
-    document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('selected'));
-    event.target.classList.add('selected');
-    document.getElementById('lang-dropdown').classList.remove('open');
-  }
-  document.addEventListener('click', function(e) {
-    if (!e.target.closest('.lang-wrap')) {
-      const dd = document.getElementById('lang-dropdown');
-      if (dd) dd.classList.remove('open');
-    }
-  });
   function openHelp() {
     document.getElementById('help-overlay').classList.add('open');
     document.getElementById('help-sheet').classList.add('open');
@@ -616,6 +607,25 @@
     document.getElementById('help-overlay').classList.remove('open');
     document.getElementById('help-sheet').classList.remove('open');
   }
+
+  function toggleLang() {
+    var dd = document.getElementById('lang-dropdown');
+    if (dd) dd.classList.toggle('open');
+  }
+  function setLang(code) {
+    var ll = document.getElementById('lang-label');
+    if (ll) ll.textContent = code;
+    document.querySelectorAll('.lang-option').forEach(function(o) { o.classList.remove('selected'); });
+    if (event && event.target) event.target.classList.add('selected');
+    var dd = document.getElementById('lang-dropdown');
+    if (dd) dd.classList.remove('open');
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.lang-wrap')) {
+      var dd = document.getElementById('lang-dropdown');
+      if (dd) dd.classList.remove('open');
+    }
+  });
 </script>
 
 <!-- RESUME SHEET -->
@@ -648,32 +658,32 @@
 <div class="otp-sheet" id="help-sheet">
   <div class="sheet-handle"></div>
   <div style="padding:0 24px 24px;">
-    <div style="font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px;">Need Help?</div>
-    <div style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;">Support team available Mon–Sat, 9 AM – 6 PM</div>
+    <div style="font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px;" data-i18n="need.help">Need Help?</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;" data-i18n="support.hours">Support team available Mon–Sat, 9 AM – 6 PM</div>
     <a href="tel:18001234567" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
       <div style="width:42px;height:42px;border-radius:12px;background:#EFF6FF;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
         <svg viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 11.5 19.79 19.79 0 011.29 2.94 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.37a16 16 0 006.29 6.29l1.54-1.54a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
       </div>
-      <div><div style="font-size:14px;font-weight:600;color:var(--ink);">Call Us</div><div style="font-size:12px;color:var(--muted);margin-top:2px;">1800-123-4567 · Toll Free</div></div>
+      <div><div style="font-size:14px;font-weight:600;color:var(--ink);" data-i18n="call.us">Call Us</div><div style="font-size:12px;color:var(--muted);margin-top:2px;" data-i18n="toll.free">1800-123-4567 · Toll Free</div></div>
       <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
     </a>
     <a href="https://wa.me/911800123456" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
       <div style="width:42px;height:42px;border-radius:12px;background:#DCFCE7;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
         <svg viewBox="0 0 24 24" fill="#16A34A" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.121 1.532 5.855L0 24l6.335-1.51A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.372l-.36-.214-3.732.888.924-3.638-.235-.374A9.818 9.818 0 1112 21.818z"/></svg>
       </div>
-      <div><div style="font-size:14px;font-weight:600;color:var(--ink);">WhatsApp</div><div style="font-size:12px;color:var(--muted);margin-top:2px;">Chat with us instantly</div></div>
+      <div><div style="font-size:14px;font-weight:600;color:var(--ink);" data-i18n="whatsapp">WhatsApp</div><div style="font-size:12px;color:var(--muted);margin-top:2px;" data-i18n="whatsapp.sub">Chat with us instantly</div></div>
       <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
     </a>
     <a href="/cdn-cgi/l/email-protection#2e5d5b5e5e415c5a6e4941424a48475a004740" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
       <div style="width:42px;height:42px;border-radius:12px;background:#FDF8EE;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
         <svg viewBox="0 0 24 24" fill="none" stroke="#C8972B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </div>
-      <div><div style="font-size:14px;font-weight:600;color:var(--ink);">Email Us</div><div style="font-size:12px;color:var(--muted);margin-top:2px;"><span class="__cf_email__" data-cfemail="9be8eeebebf4e9efdbfcf4f7fffdf2efb5f2f5">[email&#160;protected]</span></div></div>
+      <div><div style="font-size:14px;font-weight:600;color:var(--ink);" data-i18n="email.us">Email Us</div><div style="font-size:12px;color:var(--muted);margin-top:2px;"><span class="__cf_email__" data-cfemail="9be8eeebebf4e9efdbfcf4f7fffdf2efb5f2f5">[email&#160;protected]</span></div></div>
       <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
     </a>
     <a href="#faq" style="display:flex;align-items:center;gap:14px;padding:14px 0;text-decoration:none;">
       <div style="width:42px;height:42px;border-radius:12px;background:#EDE9FE;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
         <svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       </div>
-      <div><div style="font-size:14px;font-weight:600;color:var(--ink);">FAQs</div><div style="font-size:12px;color:var(--muted);margin-top:2px;">Browse common questions</div></div>
+      <div><div style="font-size:14px;font-weight:600;color:var(--ink);" data-i18n="faqs">FAQs</div><div style="font-size:12px;color:var(--muted);margin-top:2px;" data-i18n="faqs.sub">Browse common questions</div></div>
       <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-lin

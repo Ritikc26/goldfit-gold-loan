@@ -137,6 +137,22 @@ html, body {
 .slide-up-3 { animation: slideUp 0.4s ease 0.5s both; }
 .slide-up-4 { animation: slideUp 0.4s ease 0.65s both; }
 .slide-up-5 { animation: slideUp 0.4s ease 0.8s both; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--white); border-bottom: 1px solid var(--border); }
+.topbar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.lang-wrap { position: relative; }
+.lang-btn { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--navy); background: var(--light-gray); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 6px 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.lang-dropdown { display: none; position: absolute; top: calc(100% + 6px); right: 0; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-sm); min-width: 130px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); z-index: 200; overflow: hidden; }
+.lang-dropdown.open { display: block; }
+.lang-option { padding: 11px 16px; font-size: 13px; color: var(--ink); cursor: pointer; transition: background 0.15s; }
+.lang-option:hover, .lang-option.selected { background: var(--light-gray); font-weight: 600; color: var(--navy); }
+.help-btn { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--navy); background: var(--light-gray); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 6px 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+
+.sheet-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.sheet-overlay.open { opacity: 1; pointer-events: all; }
+.otp-sheet { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%); width: 100%; max-width: 430px; background: var(--white); border-radius: 24px 24px 0 0; padding: 0 0 40px; z-index: 201; max-height: 90vh; overflow-y: auto; transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); }
+.otp-sheet.open { transform: translateX(-50%) translateY(0); }
+.sheet-handle { width: 36px; height: 4px; background: var(--border); border-radius: 4px; margin: 12px auto 20px; }
 </style>
 </head>
 <body>
@@ -148,6 +164,27 @@ html, body {
       <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L4 7v5c0 5.25 3.4 10.15 8 11.35C16.6 22.15 20 17.25 20 12V7L12 2z" fill="#F5C55E"/></svg>
     </div>
     <span class="nav-logo-text">Gold<span>fit</span></span>
+  </div>
+  <div class="topbar-right">
+    <div class="lang-wrap">
+      <button class="lang-btn" onclick="toggleLang()" id="lang-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        <span id="lang-label">EN</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="10" height="10"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="lang-dropdown" id="lang-dropdown">
+        <div class="lang-option selected" onclick="setLang('EN')">English</div>
+        <div class="lang-option" onclick="setLang('HI')">हिंदी</div>
+        <div class="lang-option" onclick="setLang('TA')">தமிழ்</div>
+        <div class="lang-option" onclick="setLang('TE')">తెలుగు</div>
+        <div class="lang-option" onclick="setLang('BN')">বাংলা</div>
+        <div class="lang-option" onclick="setLang('MR')">मराठी</div>
+      </div>
+    </div>
+    <button class="help-btn" onclick="openHelp()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 11.5 19.79 19.79 0 011.29 2.94 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.37a16 16 0 006.29 6.29l1.54-1.54a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Help
+    </button>
   </div>
 </div>
 
@@ -204,7 +241,7 @@ html, body {
   </div>
 
   <!-- SUCCESS TEXT -->
-  <h1 class="success-title slide-up-1">Application Submitted<br>for Review</h1>
+  <h1 class="success-title slide-up-1" data-i18n="app.submitted">Application Submitted for Review</h1>
   <p class="success-subtitle slide-up-1">Thank you! Your application is now with our team. You will be notified via SMS and Email when your sanction letter is ready.</p>
 
   <!-- REFERENCE NUMBER -->
@@ -333,6 +370,86 @@ html, body {
   function trackApplication() {
     alert('Application tracking coming soon!');
   }
+document.addEventListener("click", function() {});
+
+  // no lang selector on this page
+
+  function toggleLang() {
+    var dd = document.getElementById('lang-dropdown');
+    if (dd) dd.classList.toggle('open');
+  }
+  function setLang(code) {
+    var ll = document.getElementById('lang-label');
+    if (ll) ll.textContent = code;
+    document.querySelectorAll('.lang-option').forEach(function(o) { o.classList.remove('selected'); });
+    if (event && event.target) event.target.classList.add('selected');
+    var dd = document.getElementById('lang-dropdown');
+    if (dd) dd.classList.remove('open');
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.lang-wrap')) {
+      var dd = document.getElementById('lang-dropdown');
+      if (dd) dd.classList.remove('open');
+    }
+  });
+
+  function openHelp() {
+    document.getElementById('help-overlay').classList.add('open');
+    document.getElementById('help-sheet').classList.add('open');
+  }
+  function closeHelp() {
+    document.getElementById('help-overlay').classList.remove('open');
+    document.getElementById('help-sheet').classList.remove('open');
+  }
+  function toggleLang() {
+    var dd = document.getElementById('lang-dropdown');
+    if (dd) dd.classList.toggle('open');
+  }
+  function setLang(code) {
+    var ll = document.getElementById('lang-label');
+    if (ll) ll.textContent = code;
+    document.querySelectorAll('.lang-option').forEach(function(o) { o.classList.remove('selected'); });
+    if (event && event.target) event.target.classList.add('selected');
+    var dd = document.getElementById('lang-dropdown');
+    if (dd) dd.classList.remove('open');
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.lang-wrap')) {
+      var dd = document.getElementById('lang-dropdown');
+      if (dd) dd.classList.remove('open');
+    }
+  });
 </script>
+
+<!-- HELP SHEET -->
+<div class="sheet-overlay" id="help-overlay" onclick="closeHelp()"></div>
+<div class="otp-sheet" id="help-sheet">
+  <div class="sheet-handle"></div>
+  <div style="padding:0 24px 24px;">
+    <div style="font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px;">Need Help?</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;">Support team available Mon–Sat, 9 AM – 6 PM</div>
+    <a href="tel:18001234567" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#EFF6FF;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 11.5 19.79 19.79 0 011.29 2.94 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.37a16 16 0 006.29 6.29l1.54-1.54a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      </div>
+      <div><div style="font-size:14px;font-weight:600;color:var(--ink);">Call Us</div><div style="font-size:12px;color:var(--muted);margin-top:2px;">1800-123-4567 · Toll Free</div></div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="https://wa.me/911800123456" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#DCFCE7;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="#16A34A" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.121 1.532 5.855L0 24l6.335-1.51A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.372l-.36-.214-3.732.888.924-3.638-.235-.374A9.818 9.818 0 1112 21.818z"/></svg>
+      </div>
+      <div><div style="font-size:14px;font-weight:600;color:var(--ink);">WhatsApp</div><div style="font-size:12px;color:var(--muted);margin-top:2px;">Chat with us instantly</div></div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="mailto:support@goldfit.in" style="display:flex;align-items:center;gap:14px;padding:14px 0;text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:#FDF8EE;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C8972B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div><div style="font-size:14px;font-weight:600;color:var(--ink);">Email Us</div><div style="font-size:12px;color:var(--muted);margin-top:2px;">support@goldfit.in</div></div>
+      <svg style="margin-left:auto;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+  </div>
+</div>
 </body>
 </html>
